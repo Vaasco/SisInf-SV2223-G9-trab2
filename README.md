@@ -2,7 +2,7 @@
 
 # SEGUNDA FASE
 
-    Resultados pretendidos
+Resultados pretendidos
     
 Tendo em conta os objetivos de aprendizagem, deverão ser produzidos os seguintes resultados:
   1. Criação de uma aplicação Java que permita:
