@@ -11,7 +11,7 @@ Tendo em conta os objetivos de aprendizagem, deverão ser produzidos os seguinte
     procedimento armazenado nem qualquer função pgSql;
     (c) Realizar a funcionalidade 2h, descrita na fase 1 deste trabalho, reutilizando os
     procedimentos armazenados e funções que a funcionalidade original usa;
-  2.
+  2. 
     (a) Usando optimistic locking, aumentar em 20% o número de pontos associados a um
     crachá, dados o nome do crachá e o identificador do jogo a que ele pertence.
     (b) testar a alínea anterior, apresentando uma mensagem de erro adequada em caso de
