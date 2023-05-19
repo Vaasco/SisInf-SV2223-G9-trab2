@@ -24,6 +24,7 @@ Tendo em conta os objetivos de aprendizagem, deverão ser produzidos os seguinte
     (c) realizar o mesmo que em (a), mas usando controlo de concorrência pessimista.
   
   Notas:
+    
     Todas as alíneas devem ter tratamento de erros e, nos casos relevantes, gestão transacional
     utilizando o nível de isolamento adequado de forma explícita.
     O código a desenvolver deverá estar organizado em vários projetos que reflitam a estrutura
