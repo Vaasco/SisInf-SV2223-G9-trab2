@@ -1,9 +1,6 @@
 package model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "crachas")
@@ -16,6 +13,12 @@ public class Cracha {
 
     @Column(name = "limite_pontos")
     private Integer limitePontos;
+
+    @ManyToMany( cascade=CascadeType.REMOVE )
+        @JoinTable(name = "tem",
+                joinColumns = @JoinColumn( "nome_cracha" ),
+                inverseJoinColumns = @JoinColumn( name = )
+        )
 
     public CrachaId getId() {
         return id;

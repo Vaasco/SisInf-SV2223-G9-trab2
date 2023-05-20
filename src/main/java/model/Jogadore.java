@@ -3,6 +3,7 @@ package model;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "jogadores")
@@ -20,6 +21,11 @@ public class Jogadore {
 
     @OneToMany(mappedBy = "jogador", cascade = CascadeType.PERSIST)
     private List<EstatisticasJogadore> estatisticas_jogadores;
+
+    @ManyToMany(mappedBy = "jogadores",cascade=CascadeType.REMOVE )
+    private Set<Jogo> jogos;
+
+
 
     public JogadoreId getId() {
         return id;
