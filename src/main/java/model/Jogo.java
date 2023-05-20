@@ -1,9 +1,8 @@
 package model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "jogos")
@@ -13,6 +12,9 @@ public class Jogo {
 
     @Column(name = "url", length = 30)
     private String url;
+
+    @OneToMany(mappedBy = "jogo", cascade = CascadeType.PERSIST)
+    private List<EstatisticasJogo> estatisticas_jogos;
 
     public JogoId getId() {
         return id;

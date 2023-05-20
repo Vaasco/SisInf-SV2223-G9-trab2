@@ -24,6 +24,10 @@ public class Mensagen {
     @Column(name = "data_hora_msg")
     private LocalDate dataHoraMsg;
 
+    @ManyToOne
+    @JoinColumn(name = "id_conversa")
+    private Conversa conversa;
+
     public MensagenId getId() {
         return id;
     }

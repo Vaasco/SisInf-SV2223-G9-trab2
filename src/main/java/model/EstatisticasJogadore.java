@@ -1,15 +1,13 @@
 package model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "estatisticas_jogadores")
 public class EstatisticasJogadore {
     @EmbeddedId
     private EstatisticasJogadoreId id;
+
 
     @Column(name = "nmr_partidas_player")
     private Integer nmrPartidasPlayer;
@@ -19,6 +17,10 @@ public class EstatisticasJogadore {
 
     @Column(name = "total_pontos_player")
     private Integer totalPontosPlayer;
+
+    @ManyToOne
+    @JoinColumn(name = "id_player")
+    private Jogadore jogador;
 
     public EstatisticasJogadoreId getId() {
         return id;

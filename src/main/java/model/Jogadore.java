@@ -1,9 +1,8 @@
 package model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "jogadores")
@@ -13,6 +12,14 @@ public class Jogadore {
 
     @Column(name = "estado_player", length = 30)
     private String estadoPlayer;
+
+    //Não tenho a certeza se é assim que se faz o mapeamento das associações!
+    @ManyToOne
+    @JoinColumn(name = "nome_regiao")
+    private Regiao regiao;
+
+    @OneToMany(mappedBy = "jogador", cascade = CascadeType.PERSIST)
+    private List<EstatisticasJogadore> estatisticas_jogadores;
 
     public JogadoreId getId() {
         return id;
