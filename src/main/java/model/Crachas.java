@@ -8,9 +8,9 @@ import java.util.Set;
 //acho que falta o nome_cracha!!!
 @Entity
 @Table(name = "crachas")
-public class Cracha {
+public class Crachas {
     @EmbeddedId
-    private CrachaId id;
+    private CrachasId id;
 
     @Column(name = "url", length = 30)
     private String url;
@@ -19,14 +19,14 @@ public class Cracha {
     private Integer limitePontos;
 
     @ManyToMany(mappedBy = "crachas", cascade = CascadeType.REMOVE)
-    private Set<Jogadore> jogadores;
+    private Set<Jogadores> jogadores;
 
 
-    public CrachaId getId() {
+    public CrachasId getId() {
         return id;
     }
 
-    public void setId(CrachaId id) {
+    public void setId(CrachasId id) {
         this.id = id;
     }
 

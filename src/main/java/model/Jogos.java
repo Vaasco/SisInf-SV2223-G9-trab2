@@ -1,21 +1,24 @@
 package model;
 
 import jakarta.persistence.*;
-import org.eclipse.persistence.jpa.config.Cascade;
 
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "jogos")
-public class Jogo {
-    @EmbeddedId
-    private JogoId id;
+public class Jogos {
+    @Id
+    @Column(name = "id_game", length = 30, unique = true, nullable = false)
+    private String id_game;
+
+    @Column(name = "nome_game", length = 30, unique = true, nullable = false)
+    private String nome_game;
 
     @Column(name = "url", length = 30)
     private String url;
 
-    @OneToMany(mappedBy = "jogo", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "jogos", cascade = CascadeType.PERSIST)
     private List<EstatisticasJogo> estatisticas_jogos;
 
     @ManyToMany(cascade = CascadeType.REMOVE)
@@ -23,7 +26,7 @@ public class Jogo {
             joinColumns = @JoinColumn(name = "id_game"),
             inverseJoinColumns = @JoinColumn(name = "id_player")
     )
-    private Set<Jogadore> jogadores;
+    private Set<Jogadores> jogadores;
 
     public JogoId getId() {
         return id;

@@ -7,13 +7,10 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class CrachaId implements Serializable {
+public class CrachasId implements Serializable {
     private static final long serialVersionUID = 551170741717162794L;
     @Column(name = "id_game", nullable = false)
     private Integer idGame;
-
-    @Column(name = "nome_game", nullable = false, length = 30)
-    private String nomeGame;
 
     @Column(name = "nome_cracha", nullable = false, length = 30)
     private String nomeCracha;
@@ -26,13 +23,6 @@ public class CrachaId implements Serializable {
         this.idGame = idGame;
     }
 
-    public String getNomeGame() {
-        return nomeGame;
-    }
-
-    public void setNomeGame(String nomeGame) {
-        this.nomeGame = nomeGame;
-    }
 
     public String getNomeCracha() {
         return nomeCracha;
@@ -46,15 +36,14 @@ public class CrachaId implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CrachaId entity = (CrachaId) o;
+        CrachasId entity = (CrachasId) o;
         return Objects.equals(this.idGame, entity.idGame) &&
-                Objects.equals(this.nomeCracha, entity.nomeCracha) &&
-                Objects.equals(this.nomeGame, entity.nomeGame);
+                Objects.equals(this.nomeCracha, entity.nomeCracha);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idGame, nomeCracha, nomeGame);
+        return Objects.hash(idGame, nomeCracha);
     }
 
 }

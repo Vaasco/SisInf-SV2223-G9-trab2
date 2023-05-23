@@ -1,15 +1,13 @@
 package model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "comprar")
 public class Comprar {
+    //Apagar o ComprarId
     @EmbeddedId
     private ComprarId id;
 
@@ -20,8 +18,7 @@ public class Comprar {
     private Integer preco;
 
     public ComprarId getId() {
-        return id;
-    }
+        return id;    }
 
     public void setId(ComprarId id) {
         this.id = id;

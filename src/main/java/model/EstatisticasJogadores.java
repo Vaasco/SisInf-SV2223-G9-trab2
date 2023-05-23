@@ -4,10 +4,9 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "estatisticas_jogadores")
-public class EstatisticasJogadore {
-    @EmbeddedId
-    private EstatisticasJogadoreId id;
-
+public class EstatisticasJogadores {
+    @Id
+    private Integer id_player;
 
     @Column(name = "nmr_partidas_player")
     private Integer nmrPartidasPlayer;
@@ -20,15 +19,8 @@ public class EstatisticasJogadore {
 
     @ManyToOne
     @JoinColumn(name = "id_player")
-    private Jogadore jogador;
 
-    public EstatisticasJogadoreId getId() {
-        return id;
-    }
-
-    public void setId(EstatisticasJogadoreId id) {
-        this.id = id;
-    }
+    private Jogadores jogador;
 
     public Integer getNmrPartidasPlayer() {
         return nmrPartidasPlayer;

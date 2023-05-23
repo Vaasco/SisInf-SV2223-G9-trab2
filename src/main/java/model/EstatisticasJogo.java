@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "estatisticas_jogo")
 public class EstatisticasJogo {
-    @EmbeddedId
-    private EstatisticasJogoId id;
+    @Id
+    private Integer id;
 
     @Column(name = "total_pontos_game")
     private Integer totalPontosGame;
@@ -19,14 +19,14 @@ public class EstatisticasJogo {
 
     @ManyToOne
     @JoinColumn(name = "id_game")
-    private Jogo jogo;
+    private Jogos jogos;
 
 
-    public EstatisticasJogoId getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(EstatisticasJogoId id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class MensagenId implements Serializable {
+public class MensagensId implements Serializable {
     private static final long serialVersionUID = 5219174430912198314L;
     @Column(name = "id_conversa", nullable = false)
     private Integer idConversa;
@@ -35,7 +35,7 @@ public class MensagenId implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MensagenId entity = (MensagenId) o;
+        MensagensId entity = (MensagensId) o;
         return Objects.equals(this.nmrSeqMsg, entity.nmrSeqMsg) &&
                 Objects.equals(this.idConversa, entity.idConversa);
     }

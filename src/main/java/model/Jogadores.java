@@ -7,9 +7,16 @@ import java.util.Set;
 
 @Entity
 @Table(name = "jogadores")
-public class Jogadore {
-    @EmbeddedId
-    private JogadoreId id;
+public class Jogadores {
+    @Id
+    @Column(name = "id_player" , length = 40 , unique = true , nullable = false)
+    private int id_player;
+
+    @Column(name = "email", length = 40, unique = true, nullable = false)
+    private String email;
+
+    @Column(name = "username", length = 40, unique = true, nullable = false)
+    private String username;
 
     @Column(name = "estado_player", length = 30)
     private String estadoPlayer;
@@ -28,9 +35,9 @@ public class Jogadore {
     @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(name = "tem",
             joinColumns = @JoinColumn(name = "id_player"),
-            //Aqui o jpabuddy não criou nome de cracha então usei o id que ele criou
+            //Não está a ir buscar o id composto de crachas
             inverseJoinColumns = @JoinColumn(name = "id"))
-    private Set<Cracha> crachas;
+    private Set<Crachas> crachas;
 
     @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(name = "participar",
