@@ -1,9 +1,9 @@
 package model;
 
 import jakarta.persistence.*;
-
 import java.util.List;
 import java.util.Set;
+
 
 @Entity
 @Table(name = "jogadores")
@@ -27,10 +27,10 @@ public class Jogadores {
     private Regiao regiao;
 
     @OneToMany(mappedBy = "jogador", cascade = CascadeType.PERSIST)
-    private List<EstatisticasJogadore> estatisticas_jogadores;
+    private List<EstatisticasJogadores> estatisticas_jogadores;
 
     @ManyToMany(mappedBy = "jogadores", cascade = CascadeType.REMOVE)
-    private Set<Jogo> jogos;
+    private Set<Jogos> jogos;
 
     @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(name = "tem",
@@ -46,14 +46,21 @@ public class Jogadores {
     private Set<Conversa> conversas;
 
 
-
-    public JogadoreId getId() {
-        return id;
+    public int getId() {
+        return id_player;
     }
 
-    public void setId(JogadoreId id) {
-        this.id = id;
+    public void setId(int id) {
+        this.id_player = id;
     }
+
+    public String getEmail(){ return email;}
+
+    public void setEmail(String email){ this.email = email;}
+
+    public String getUsername(){ return username;}
+
+    public void setUsername(String username){ this.username = username;}
 
     public String getEstadoPlayer() {
         return estadoPlayer;
@@ -62,5 +69,4 @@ public class Jogadores {
     public void setEstadoPlayer(String estadoPlayer) {
         this.estadoPlayer = estadoPlayer;
     }
-
 }

@@ -17,10 +17,10 @@ public class Conversa {
     private String nomeConversa;
 
     @OneToMany(mappedBy = "conversa", cascade = CascadeType.PERSIST)
-    private List<Mensagen> mensagens;
+    private List<Mensagens> mensagens;
 
     @ManyToMany(mappedBy = "conversas", cascade = CascadeType.REMOVE)
-    private Set<Jogadore> jogadores;
+    private Set<Jogadores> jogadores;
 
     public Integer getId() {
         return id;

@@ -1,14 +1,14 @@
 package model;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
+
 
 @Entity
 @Table(name = "mensagens")
-public class Mensagen {
+public class Mensagens {
     @EmbeddedId
-    private MensagenId id;
+    private MensagensId id;
 
     @MapsId("idConversa")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -28,11 +28,11 @@ public class Mensagen {
     @JoinColumn(name = "id_conversa")
     private Conversa conversa;
 
-    public MensagenId getId() {
+    public MensagensId getId() {
         return id;
     }
 
-    public void setId(MensagenId id) {
+    public void setId(MensagensId id) {
         this.id = id;
     }
 
@@ -67,5 +67,4 @@ public class Mensagen {
     public void setDataHoraMsg(LocalDate dataHoraMsg) {
         this.dataHoraMsg = dataHoraMsg;
     }
-
 }

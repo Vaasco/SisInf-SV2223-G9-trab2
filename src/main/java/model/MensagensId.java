@@ -2,18 +2,20 @@ package model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-
 import java.io.Serializable;
 import java.util.Objects;
+
 
 @Embeddable
 public class MensagensId implements Serializable {
     private static final long serialVersionUID = 5219174430912198314L;
+
     @Column(name = "id_conversa", nullable = false)
     private Integer idConversa;
 
     @Column(name = "nmr_seq_msg", nullable = false)
     private Integer nmrSeqMsg;
+
 
     public Integer getIdConversa() {
         return idConversa;
@@ -31,6 +33,7 @@ public class MensagensId implements Serializable {
         this.nmrSeqMsg = nmrSeqMsg;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -44,5 +47,4 @@ public class MensagensId implements Serializable {
     public int hashCode() {
         return Objects.hash(nmrSeqMsg, idConversa);
     }
-
 }

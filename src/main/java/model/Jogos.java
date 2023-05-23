@@ -28,12 +28,12 @@ public class Jogos {
     )
     private Set<Jogadores> jogadores;
 
-    public JogoId getId() {
-        return id;
+    public String getId() {
+        return id_game;
     }
 
-    public void setId(JogoId id) {
-        this.id = id;
+    public void setId(String id) {
+        this.id_game = id;
     }
 
     public String getUrl() {
@@ -44,4 +44,11 @@ public class Jogos {
         this.url = url;
     }
 
+    public String getNome_game() {
+        return nome_game;
+    }
+
+    public void setNome_game(String nomeGame) {
+        this.nome_game = nomeGame;
+    }
 }

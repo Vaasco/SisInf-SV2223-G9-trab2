@@ -2,24 +2,23 @@ package model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-
 import java.io.Serializable;
 import java.util.Objects;
+
 
 @Embeddable
 public class MultijogadorId implements Serializable {
     private static final long serialVersionUID = -834507477782150570L;
-    @Column(name = "nome_regiao", nullable = false, length = 30)
+
+    @Column(name = "nome_regiao", nullable = false, length = 40)
     private String nomeRegiao;
 
     @Column(name = "id_game", nullable = false)
     private Integer idGame;
 
-    @Column(name = "nome_game", nullable = false, length = 30)
-    private String nomeGame;
-
     @Column(name = "nmr_seq_partida", nullable = false)
     private Integer nmrSeqPartida;
+
 
     public String getNomeRegiao() {
         return nomeRegiao;
@@ -37,14 +36,6 @@ public class MultijogadorId implements Serializable {
         this.idGame = idGame;
     }
 
-    public String getNomeGame() {
-        return nomeGame;
-    }
-
-    public void setNomeGame(String nomeGame) {
-        this.nomeGame = nomeGame;
-    }
-
     public Integer getNmrSeqPartida() {
         return nmrSeqPartida;
     }
@@ -53,6 +44,7 @@ public class MultijogadorId implements Serializable {
         this.nmrSeqPartida = nmrSeqPartida;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -60,13 +52,11 @@ public class MultijogadorId implements Serializable {
         MultijogadorId entity = (MultijogadorId) o;
         return Objects.equals(this.nomeRegiao, entity.nomeRegiao) &&
                 Objects.equals(this.idGame, entity.idGame) &&
-                Objects.equals(this.nmrSeqPartida, entity.nmrSeqPartida) &&
-                Objects.equals(this.nomeGame, entity.nomeGame);
+                Objects.equals(this.nmrSeqPartida, entity.nmrSeqPartida);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nomeRegiao, idGame, nmrSeqPartida, nomeGame);
+        return Objects.hash(nomeRegiao, idGame, nmrSeqPartida);
     }
-
 }

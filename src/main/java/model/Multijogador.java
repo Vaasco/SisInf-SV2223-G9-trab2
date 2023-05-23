@@ -10,13 +10,14 @@ public class Multijogador {
     @EmbeddedId
     private MultijogadorId id;
 
+    @ManyToOne
+    @JoinColumn(name = "nome_regiao")
+    private Regiao regiao;
+
     @MapsId
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumns({
-            @JoinColumn(name = "id_game", referencedColumnName = "id_game", nullable = false),
-            @JoinColumn(name = "nome_game", referencedColumnName = "nome_game", nullable = false)
-    })
-    private Jogo jogos;
+    @JoinColumn(name = "id_game", referencedColumnName = "id_game", nullable = false)
+    private Jogos jogos;
 
     @Column(name = "estado_partida", length = 30)
     private String estadoPartida;
@@ -29,14 +30,9 @@ public class Multijogador {
 
     //Relação gerada pelo jpabuddy nao sei se está bem, mas nao consigo seguir o raciocinio para esta entidade, não tem uma chave primária
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumns({
-            @JoinColumn(name = "id_player", referencedColumnName = "id_player"),
-            @JoinColumn(name = "username", referencedColumnName = "username"),
-            @JoinColumn(name = "email", referencedColumnName = "email")
-    })
+    @JoinColumn(name = "id_player", referencedColumnName = "id_player")
+    private Jogadores jogadores;
 
-
-    private Jogadore jogadores;
 
     public MultijogadorId getId() {
         return id;
@@ -46,11 +42,19 @@ public class Multijogador {
         this.id = id;
     }
 
-    public Jogo getJogos() {
+    public Regiao getNomeRegiao() {
+        return regiao;
+    }
+
+    public void setNomeRegiao(Regiao nomeRegiao) {
+        this.regiao = nomeRegiao;
+    }
+
+    public Jogos getJogos() {
         return jogos;
     }
 
-    public void setJogos(Jogo jogos) {
+    public void setJogos(Jogos jogos) {
         this.jogos = jogos;
     }
 
@@ -78,12 +82,11 @@ public class Multijogador {
         this.dataHoraFim = dataHoraFim;
     }
 
-    public Jogadore getJogadores() {
+    public Jogadores getJogadores() {
         return jogadores;
     }
 
-    public void setJogadores(Jogadore jogadores) {
+    public void setJogadores(Jogadores jogadores) {
         this.jogadores = jogadores;
     }
-
 }
