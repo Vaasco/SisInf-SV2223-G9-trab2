@@ -6,7 +6,7 @@ import model.Regiao;
 
 public class aline2d {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         String email = "tiago@sapo.pt";
         String name = "Thiago";
 
@@ -14,7 +14,7 @@ public class aline2d {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAEx");
         EntityManager em = emf.createEntityManager();
 
-        try{
+        try {
             em.getTransaction().begin();
 
             Jogadores jogador = new Jogadores();
@@ -28,18 +28,15 @@ public class aline2d {
 
             em.getTransaction().commit();
             System.out.println("Jogador criado");
-        }catch (Exception ex){
+        } catch (Exception ex) {
             em.getTransaction().rollback();
             ex.printStackTrace();
-        }finally {
+        } finally {
             em.close();
             emf.close();
         }
 
     }
-
-
-
 
 
 }

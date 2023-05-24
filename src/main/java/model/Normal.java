@@ -1,13 +1,14 @@
 package model;
 
 import jakarta.persistence.*;
+import orm.interfaces.INormal;
 
 import java.time.LocalDate;
 
 
 @Entity
 @Table(name = "normal")
-public class Normal {
+public class Normal implements INormal {
     @EmbeddedId
     private NormalId id;
 

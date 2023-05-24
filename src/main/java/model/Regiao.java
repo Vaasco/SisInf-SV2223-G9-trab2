@@ -1,12 +1,14 @@
 package model;
 
 import jakarta.persistence.*;
+import orm.interfaces.IRegiao;
+
 import java.util.List;
 
 
 @Entity
 @Table(name = "regiao")
-public class Regiao {
+public class Regiao implements IRegiao {
     @Id
     @Column(name = "nome_regiao", nullable = false, length = 40)
     private String nomeRegiao;
@@ -25,6 +27,7 @@ public class Regiao {
     public String getNomeRegiao() {
         return nomeRegiao;
     }
+
 
     public void setNomeRegiao(String nomeRegiao) {
         this.nomeRegiao = nomeRegiao;

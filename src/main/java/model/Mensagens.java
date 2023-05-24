@@ -1,12 +1,14 @@
 package model;
 
 import jakarta.persistence.*;
+import orm.interfaces.IMensagens;
+
 import java.time.LocalDate;
 
 
 @Entity
 @Table(name = "mensagens")
-public class Mensagens {
+public class Mensagens implements IMensagens {
     @EmbeddedId
     private MensagensId id;
 
@@ -27,6 +29,7 @@ public class Mensagens {
     @ManyToOne
     @JoinColumn(name = "id_conversa")
     private Conversa conversa;
+
 
     public MensagensId getId() {
         return id;

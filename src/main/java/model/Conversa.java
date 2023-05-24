@@ -1,13 +1,14 @@
 package model;
 
 import jakarta.persistence.*;
+import orm.interfaces.IConversa;
 
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "conversas")
-public class Conversa {
+public class Conversa implements IConversa {
 
     @Id
     @Column(name = "id_conversa", nullable = false)

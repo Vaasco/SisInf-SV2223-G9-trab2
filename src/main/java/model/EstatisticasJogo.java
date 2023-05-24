@@ -1,10 +1,12 @@
 package model;
 
 import jakarta.persistence.*;
+import orm.interfaces.IEstatisticasJogadores;
+import orm.interfaces.IEstatisticasJogo;
 
 @Entity
 @Table(name = "estatisticas_jogo")
-public class EstatisticasJogo {
+public class EstatisticasJogo implements IEstatisticasJogo {
     @Id
     private Integer id;
 

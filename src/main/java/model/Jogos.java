@@ -1,13 +1,14 @@
 package model;
 
 import jakarta.persistence.*;
+import orm.interfaces.IJogos;
 
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "jogos")
-public class Jogos {
+public class Jogos implements IJogos {
     @Id
     @Column(name = "id_game", length = 30, unique = true, nullable = false)
     private String id_game;

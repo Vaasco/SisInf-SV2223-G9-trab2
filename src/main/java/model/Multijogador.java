@@ -1,12 +1,13 @@
 package model;
 
 import jakarta.persistence.*;
+import orm.interfaces.IMultijogador;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "multijogador")
-public class Multijogador {
+public class Multijogador implements IMultijogador {
     @EmbeddedId
     private MultijogadorId id;
 

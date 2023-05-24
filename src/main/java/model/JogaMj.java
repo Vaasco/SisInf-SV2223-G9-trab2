@@ -4,11 +4,12 @@ import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import orm.interfaces.IJogaMj;
 
 //Por acabar
 @Entity
 @Table(name = "joga_mj")
-public class JogaMj {
+public class JogaMj implements IJogaMj {
     @EmbeddedId
     private JogaMjId id;
 

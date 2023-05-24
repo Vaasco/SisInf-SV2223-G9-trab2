@@ -1,6 +1,7 @@
 package model;
 
 import jakarta.persistence.*;
+import orm.interfaces.ICrachas;
 
 import java.util.Set;
 
@@ -8,7 +9,7 @@ import java.util.Set;
 //acho que falta o nome_cracha!!!
 @Entity
 @Table(name = "crachas")
-public class Crachas {
+public class Crachas implements ICrachas {
     @EmbeddedId
     private CrachasId id;
 

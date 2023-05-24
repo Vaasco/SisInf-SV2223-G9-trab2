@@ -1,10 +1,11 @@
 package model;
 
 import jakarta.persistence.*;
+import orm.interfaces.IEstatisticasJogadores;
 
 @Entity
 @Table(name = "estatisticas_jogadores")
-public class EstatisticasJogadores {
+public class EstatisticasJogadores implements IEstatisticasJogadores {
     @Id
     private Integer id_player;
 
@@ -21,6 +22,7 @@ public class EstatisticasJogadores {
     @JoinColumn(name = "id_player")
 
     private Jogadores jogador;
+
 
     public Integer getNmrPartidasPlayer() {
         return nmrPartidasPlayer;
