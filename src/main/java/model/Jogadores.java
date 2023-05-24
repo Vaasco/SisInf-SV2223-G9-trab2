@@ -69,4 +69,8 @@ public class Jogadores {
     public void setEstadoPlayer(String estadoPlayer) {
         this.estadoPlayer = estadoPlayer;
     }
+
+    public Regiao getNomeRegiao(){return regiao;}
+
+    public void setRegiao(Regiao regiao){this.regiao = regiao;}
 }
