@@ -14,7 +14,7 @@ public class Regiao implements IRegiao {
     private String nomeRegiao;
 
 
-    @OneToMany(mappedBy="regiao", cascade = CascadeType.PERSIST )   // não sei se é este o cascadeType indicado
+    @OneToMany(mappedBy = "regiao", cascade = CascadeType.PERSIST)   // não sei se é este o cascadeType indicado
     private List<Jogadores> jogadores;
 
     @OneToMany(mappedBy = "regiao", cascade = CascadeType.PERSIST)  // não sei se é este o cascadeType indicado
