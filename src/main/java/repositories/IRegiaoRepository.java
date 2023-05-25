@@ -2,5 +2,5 @@ package repositories;
 
 import model.Regiao;
 
-public interface IRegiaoRepository extends IRepository<Regiao, String>{
+public interface IRegiaoRepository extends IRepository<Regiao, String> {
 }
