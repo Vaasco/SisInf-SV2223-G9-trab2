@@ -1,6 +1,7 @@
 package model;
 
 import jakarta.persistence.*;
+import org.eclipse.persistence.jpa.config.Cascade;
 import orm.interfaces.ICrachas;
 
 import java.util.Set;
@@ -11,6 +12,7 @@ import java.util.Set;
 @Table(name = "crachas")
 public class Crachas implements ICrachas {
     @EmbeddedId
+
     private CrachasId id;
 
     @Column(name = "url", length = 30)
@@ -21,6 +23,7 @@ public class Crachas implements ICrachas {
 
     @ManyToMany(mappedBy = "crachas", cascade = CascadeType.REMOVE)
     private Set<Jogadores> jogadores;
+
 
 
     public CrachasId getId() {

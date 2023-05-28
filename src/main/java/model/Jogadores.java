@@ -31,13 +31,12 @@ public class Jogadores implements IJogadores {
     @OneToMany(mappedBy = "jogador", cascade = CascadeType.PERSIST)
     private List<EstatisticasJogadores> estatisticas_jogadores;
 
-    @ManyToMany(mappedBy = "jogadores", cascade = CascadeType.REMOVE)
-    private Set<Jogos> jogos;
+    @ManyToMany(mappedBy = "jogadores", cascade = CascadeType.PERSIST)
+    private Set<Jogos> jogo;
 
     @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(name = "tem",
             joinColumns = @JoinColumn(name = "id_player"),
-            //Não está a ir buscar o id composto de crachas
             inverseJoinColumns = @JoinColumn(name = "id"))
     private Set<Crachas> crachas;
 

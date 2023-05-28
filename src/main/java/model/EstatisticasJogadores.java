@@ -18,6 +18,7 @@ public class EstatisticasJogadores implements IEstatisticasJogadores {
     @Column(name = "total_pontos_player")
     private Integer totalPontosPlayer;
 
+
     @ManyToOne
     @JoinColumn(name = "id_player")
 

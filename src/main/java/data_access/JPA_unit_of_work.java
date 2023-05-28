@@ -15,7 +15,7 @@ public class JPA_unit_of_work implements IUnitOfWork {
 
     protected EntityTransaction _tx;
 
-    private String persistenceUnitName = "JPAEx";
+    private final String persistenceUnitName = "JPAEx";
 
     public JPA_unit_of_work() {
         _emf = Persistence.createEntityManagerFactory(persistenceUnitName);
@@ -45,17 +45,17 @@ public class JPA_unit_of_work implements IUnitOfWork {
 
     @Override
     public void flush() {
-        if (_em != null){
+        if (_em != null) {
             _em.flush();
         }
     }
 
     @Override
     public void connect() {
-        try{
+        try {
             if (_emf != null && !_emf.isOpen()) _emf = Persistence.createEntityManagerFactory(persistenceUnitName);
             if (_em != null && !_em.isOpen()) _em = _emf.createEntityManager();
-        } catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
 

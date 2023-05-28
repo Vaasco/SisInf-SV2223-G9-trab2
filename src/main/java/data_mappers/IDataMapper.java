@@ -1,8 +1,8 @@
 package data_mappers;
 
 public interface IDataMapper<T, Tid> {
-    void Create(T entity);
+    Tid Create(T entity);
     T Read(Tid id);
-    void Update(T entity);
-    void Delete(T entity);
+    Tid Update(T entity);
+    Tid Delete(T entity);
 }
