@@ -2,23 +2,22 @@ package model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+
 import java.io.Serializable;
 import java.util.Objects;
 
-
 @Embeddable
 public class MultijogadorId implements Serializable {
-    private static final long serialVersionUID = -834507477782150570L;
 
-    @Column(name = "nome_regiao", nullable = false, length = 40)
+    private static final long serialVersionUID = 7849926518778318560L;
+    @Column(name = "nome_regiao", nullable = false)
     private String nomeRegiao;
 
     @Column(name = "id_game", nullable = false)
-    private Integer idGame;
+    private Character idGame;
 
     @Column(name = "nmr_seq_partida", nullable = false)
     private Integer nmrSeqPartida;
-
 
     public String getNomeRegiao() {
         return nomeRegiao;
@@ -28,11 +27,11 @@ public class MultijogadorId implements Serializable {
         this.nomeRegiao = nomeRegiao;
     }
 
-    public Integer getIdGame() {
+    public Character getIdGame() {
         return idGame;
     }
 
-    public void setIdGame(Integer idGame) {
+    public void setIdGame(Character idGame) {
         this.idGame = idGame;
     }
 
@@ -43,7 +42,6 @@ public class MultijogadorId implements Serializable {
     public void setNmrSeqPartida(Integer nmrSeqPartida) {
         this.nmrSeqPartida = nmrSeqPartida;
     }
-
 
     @Override
     public boolean equals(Object o) {

@@ -2,6 +2,7 @@ package model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.EmbeddedId;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -81,28 +82,3 @@ public class JogaMjId implements Serializable {
     public String getEmail() {
         return email;
     }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        JogaMjId entity = (JogaMjId) o;
-        return Objects.equals(this.nomeRegiao, entity.nomeRegiao) &&
-                Objects.equals(this.idGame, entity.idGame) &&
-                Objects.equals(this.idPlayer, entity.idPlayer) &&
-                Objects.equals(this.nmrSeqPartida, entity.nmrSeqPartida) &&
-                Objects.equals(this.nomeGame, entity.nomeGame) &&
-                Objects.equals(this.email, entity.email) &&
-                Objects.equals(this.username, entity.username);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(nomeRegiao, idGame, idPlayer, nmrSeqPartida, nomeGame, email, username);
-    }
-
-}

@@ -1,35 +1,29 @@
 package model;
 
 import jakarta.persistence.*;
-import orm.interfaces.IMensagens;
 
-import java.time.LocalDate;
-
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalTime;
 
 @Entity
-@Table(name = "mensagens")
-public class Mensagens implements IMensagens {
+@Table
+public class Mensagens {
+
     @EmbeddedId
     private MensagensId id;
 
-    @MapsId("idConversa")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_conversa", nullable = false)
-    private Conversa idConversa;
-
-    @Column(name = "texto", length = 50)
+    @Column(name = "texto")
     private String texto;
 
-    @Column(name = "remetente", length = 30)
-    private String remetente;
+    @Column(name = "remetente")
+    private Integer remetente;
+
+    @Column(name = "regiao_remetente")
+    private String regiaoRemetente;
 
     @Column(name = "data_hora_msg")
-    private LocalDate dataHoraMsg;
-
-    @ManyToOne
-    @JoinColumn(name = "id_conversa")
-    private Conversa conversa;
-
+    private LocalTime dataHoraMsg;
 
     public MensagensId getId() {
         return id;
@@ -39,35 +33,28 @@ public class Mensagens implements IMensagens {
         this.id = id;
     }
 
-    public Conversa getIdConversa() {
-        return idConversa;
-    }
-
-    public void setIdConversa(Conversa idConversa) {
-        this.idConversa = idConversa;
-    }
-
-    public String getTexto() {
-        return texto;
-    }
-
-    public void setTexto(String texto) {
-        this.texto = texto;
-    }
-
-    public String getRemetente() {
+    public Integer getRemetente() {
         return remetente;
     }
 
-    public void setRemetente(String remetente) {
+    public void setRemetente(Integer remetente) {
         this.remetente = remetente;
     }
 
-    public LocalDate getDataHoraMsg() {
+    public String getRegiaoRemetente() {
+        return regiaoRemetente;
+    }
+
+    public void setRegiaoRemetente(String regiaoRemetente) {
+        this.regiaoRemetente = regiaoRemetente;
+    }
+
+    public LocalTime getDataHoraMsg() {
         return dataHoraMsg;
     }
 
-    public void setDataHoraMsg(LocalDate dataHoraMsg) {
+    public void setDataHoraMsg(LocalTime dataHoraMsg) {
         this.dataHoraMsg = dataHoraMsg;
     }
+
 }

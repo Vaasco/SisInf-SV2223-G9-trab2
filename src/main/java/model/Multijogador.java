@@ -1,63 +1,32 @@
 package model;
 
-import jakarta.persistence.*;
-import orm.interfaces.IMultijogador;
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalTime;
+
 
 @Entity
 @Table(name = "multijogador")
-public class Multijogador implements IMultijogador {
+public class Multijogador {
     @EmbeddedId
     private MultijogadorId id;
 
-    @ManyToOne
-    @JoinColumn(name = "nome_regiao")
-    private Regiao regiao;
-
-    @MapsId
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_game", referencedColumnName = "id_game", nullable = false)
-    private Jogos jogos;
-
-    @Column(name = "estado_partida", length = 30)
+    @Column(name = "estado_partida")
     private String estadoPartida;
 
     @Column(name = "data_hora_inicio")
-    private LocalDate dataHoraInicio;
+    private LocalTime dataHoraInicio;
 
     @Column(name = "data_hora_fim")
-    private LocalDate dataHoraFim;
+    private LocalTime dataHoraFim;
 
-    //Relação gerada pelo jpabuddy nao sei se está bem, mas nao consigo seguir o raciocinio para esta entidade, não tem uma chave primária
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_player", referencedColumnName = "id_player")
-    private Jogadores jogadores;
-
-
-    public MultijogadorId getId() {
-        return id;
-    }
-
-    public void setId(MultijogadorId id) {
-        this.id = id;
-    }
-
-    public Regiao getNomeRegiao() {
-        return regiao;
-    }
-
-    public void setNomeRegiao(Regiao nomeRegiao) {
-        this.regiao = nomeRegiao;
-    }
-
-    public Jogos getJogos() {
-        return jogos;
-    }
-
-    public void setJogos(Jogos jogos) {
-        this.jogos = jogos;
-    }
+    @Column(name = "id_player")
+    private Integer idPlayer;
 
     public String getEstadoPartida() {
         return estadoPartida;
@@ -67,27 +36,27 @@ public class Multijogador implements IMultijogador {
         this.estadoPartida = estadoPartida;
     }
 
-    public LocalDate getDataHoraInicio() {
+    public LocalTime getDataHoraInicio() {
         return dataHoraInicio;
     }
 
-    public void setDataHoraInicio(LocalDate dataHoraInicio) {
+    public void setDataHoraInicio(LocalTime dataHoraInicio) {
         this.dataHoraInicio = dataHoraInicio;
     }
 
-    public LocalDate getDataHoraFim() {
+    public LocalTime getDataHoraFim() {
         return dataHoraFim;
     }
 
-    public void setDataHoraFim(LocalDate dataHoraFim) {
+    public void setDataHoraFim(LocalTime dataHoraFim) {
         this.dataHoraFim = dataHoraFim;
     }
 
-    public Jogadores getJogadores() {
-        return jogadores;
+    public Integer getIdPlayer() {
+        return idPlayer;
     }
 
-    public void setJogadores(Jogadores jogadores) {
-        this.jogadores = jogadores;
+    public void setIdPlayer(Integer idPlayer) {
+        this.idPlayer = idPlayer;
     }
 }

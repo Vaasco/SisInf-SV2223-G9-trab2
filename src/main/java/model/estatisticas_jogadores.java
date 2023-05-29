@@ -1,11 +1,12 @@
 package model;
 
 import jakarta.persistence.*;
-import orm.interfaces.IEstatisticasJogadores;
 
 @Entity
 @Table(name = "estatisticas_jogadores")
-public class EstatisticasJogadores implements IEstatisticasJogadores {
+
+
+public class estatisticas_jogadores {
     @Id
     private Integer id_player;
 
@@ -19,21 +20,15 @@ public class EstatisticasJogadores implements IEstatisticasJogadores {
     private Integer totalPontosPlayer;
 
 
-    @ManyToOne
-    @JoinColumn(name = "id_player")
-
-    private Jogadores jogador;
-
-
-    public Integer getNmrPartidasPlayer() {
+    public Integer getNmrPartidasPlayer(){
         return nmrPartidasPlayer;
     }
 
-    public void setNmrPartidasPlayer(Integer nmrPartidasPlayer) {
+    public void setNmrPartidasPlayer(Integer nmrPartidasPlayer){
         this.nmrPartidasPlayer = nmrPartidasPlayer;
     }
 
-    public Integer getNmrJogos() {
+    public Integer getNmrJogos(){
         return nmrJogos;
     }
 
@@ -48,5 +43,4 @@ public class EstatisticasJogadores implements IEstatisticasJogadores {
     public void setTotalPontosPlayer(Integer totalPontosPlayer) {
         this.totalPontosPlayer = totalPontosPlayer;
     }
-
 }

@@ -4,17 +4,17 @@ import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import orm.interfaces.IJogaMj;
 
-//Por acabar
 @Entity
 @Table(name = "joga_mj")
-public class JogaMj implements IJogaMj {
+public class JogaMj {
+
     @EmbeddedId
     private JogaMjId id;
 
     @Column(name = "pontuacao_mj")
     private Integer pontuacaoMj;
+
 
     public JogaMjId getId() {
         return id;
@@ -31,5 +31,4 @@ public class JogaMj implements IJogaMj {
     public void setPontuacaoMj(Integer pontuacaoMj) {
         this.pontuacaoMj = pontuacaoMj;
     }
-
 }

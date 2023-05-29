@@ -1,51 +1,40 @@
 package model;
 
-import jakarta.persistence.*;
-import orm.interfaces.IComprar;
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
-import java.time.LocalDate;
+import java.sql.Timestamp;
+import java.time.LocalTime;
 
 @Entity
-@Table(name = "comprar")
-public class Comprar implements IComprar {
+@Table(name = "Comprar")
+
+public class Comprar {
     @EmbeddedId
     private ComprarId id;
 
     @Column(name = "data_compra")
-    private LocalDate dataCompra;
+    private LocalTime dataCompra;
 
     @Column(name = "preco")
-    private Integer preco;
+    private Float preco;
 
 
-    public ComprarId getId() {
-        return id;
-    }
-
-
-    public void setId(ComprarId id) {
-        this.id = id;
-    }
-
-
-    public LocalDate getDataCompra() {
+    public LocalTime getDataCompra(){
         return dataCompra;
     }
 
-
-    public void setDataCompra(LocalDate dataCompra) {
+    public void setDataCompra(LocalTime dataCompra) {
         this.dataCompra = dataCompra;
     }
 
-
-    public Integer getPreco() {
+    public Float getPreco() {
         return preco;
     }
 
-
-
-    public void setPreco(Integer preco) {
+    public void setPreco(Float preco) {
         this.preco = preco;
     }
-
 }

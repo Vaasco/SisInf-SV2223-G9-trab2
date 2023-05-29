@@ -2,23 +2,22 @@ package model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+
+import javax.xml.namespace.QName;
 import java.io.Serializable;
 import java.util.Objects;
 
-
 @Embeddable
-public class NormalId implements Serializable {
-    private static final long serialVersionUID = 7298530406842094978L;
-
-    @Column(name = "nome_regiao", nullable = false, length = 40)
+public class Normald implements Serializable {
+    private static final long serialVersionUID = -3081338204084435959L;
+    @Column(name = "nome_regiao" , nullable = false)
     private String nomeRegiao;
 
-    @Column(name = "id_game", nullable = false)
-    private Integer idGame;
+    @Column(name = "id_game" , nullable = false)
+    private Character idGame;
 
-    @Column(name = "nmr_seq_partida", nullable = false)
+    @Column(name = "nmr_seq_partida" , nullable = false)
     private Integer nmrSeqPartida;
-
 
     public String getNomeRegiao() {
         return nomeRegiao;
@@ -28,11 +27,11 @@ public class NormalId implements Serializable {
         this.nomeRegiao = nomeRegiao;
     }
 
-    public Integer getIdGame() {
+    public Character getIdGame() {
         return idGame;
     }
 
-    public void setIdGame(Integer idGame) {
+    public void setIdGame(Character idGame) {
         this.idGame = idGame;
     }
 
@@ -44,12 +43,11 @@ public class NormalId implements Serializable {
         this.nmrSeqPartida = nmrSeqPartida;
     }
 
-
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o){
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        NormalId entity = (NormalId) o;
+        Normald entity = (Normald) o;
         return Objects.equals(this.nomeRegiao, entity.nomeRegiao) &&
                 Objects.equals(this.idGame, entity.idGame) &&
                 Objects.equals(this.nmrSeqPartida, entity.nmrSeqPartida);

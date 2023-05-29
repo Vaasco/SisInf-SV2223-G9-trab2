@@ -1,40 +1,38 @@
 package model;
 
-import jakarta.persistence.*;
-import orm.interfaces.IJogos;
-
-import java.util.List;
-import java.util.Set;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "jogos")
-public class Jogos implements IJogos {
+public class Jogos {
+
     @Id
-    @Column(name = "id_game", length = 30, unique = true, nullable = false)
-    private String id_game;
+    @Column(name = "id_game")
+    private Character idGame;
 
-    @Column(name = "nome_game", length = 30, unique = true, nullable = false)
-    private String nome_game;
+    @Column(name = "nome_game")
+    private String nomeGame;
 
-    @Column(name = "url", length = 30)
+    @Column( name = "url" )
     private String url;
 
-    @OneToMany(mappedBy = "jogos", cascade = CascadeType.PERSIST)
-    private List<EstatisticasJogo> estatisticas_jogos;
-
-    @ManyToMany(cascade = CascadeType.REMOVE)
-    @JoinTable(name = "comprar",
-            joinColumns = @JoinColumn(name = "id_game"),
-            inverseJoinColumns = @JoinColumn(name = "id_player")
-    )
-    private Set<Jogadores> jogadores;
-
-    public String getId() {
-        return id_game;
+    public Character getIdGame() {
+        return idGame;
     }
 
-    public void setId(String id) {
-        this.id_game = id;
+    public void setIdGame(Character idGame) {
+        this.idGame = idGame;
+    }
+
+    public String getNomeGame() {
+        return nomeGame;
+    }
+
+    public void setNomeGame(String nomeGame) {
+        this.nomeGame = nomeGame;
     }
 
     public String getUrl() {
@@ -43,13 +41,5 @@ public class Jogos implements IJogos {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public String getNome_game() {
-        return nome_game;
-    }
-
-    public void setNome_game(String nomeGame) {
-        this.nome_game = nomeGame;
     }
 }
