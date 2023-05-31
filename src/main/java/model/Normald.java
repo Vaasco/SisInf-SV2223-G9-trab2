@@ -10,6 +10,7 @@ import java.util.Objects;
 @Embeddable
 public class Normald implements Serializable {
     private static final long serialVersionUID = -3081338204084435959L;
+
     @Column(name = "nome_regiao" , nullable = false)
     private String nomeRegiao;
 

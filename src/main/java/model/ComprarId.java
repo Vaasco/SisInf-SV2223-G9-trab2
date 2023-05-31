@@ -8,10 +8,11 @@ import java.util.Objects;
 
 @Embeddable
 public class ComprarId implements Serializable {
+
     private static final long serialVersionUID = 5648200503540246234L;
+
     @Column(name = "id_game", nullable = false)
     private Character idGame;
-
     @Column(name = "id_player", nullable = false)
     private Integer idPlayer;
 
@@ -22,13 +23,14 @@ public class ComprarId implements Serializable {
         return idGame;
     }
 
+    public Integer getIdPlayer() {
+        return idPlayer;
+    }
+
     public void setIdGame(Character idGame) {
         this.idGame = idGame;
     }
 
-    public Integer getIdPlayer() {
-        return idPlayer;
-    }
 
     public void setIdPlayer(Integer idPlayer) {
         this.idPlayer = idPlayer;

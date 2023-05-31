@@ -1,6 +1,7 @@
 package model;
 
 import jakarta.persistence.*;
+import orm.interfaces.IEstatisticasJogadores;
 
 @Entity
 @Table(name = "estatisticas_jogadores")
@@ -18,6 +19,10 @@ public class estatisticas_jogadores {
 
     @Column(name = "total_pontos_player")
     private Integer totalPontosPlayer;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_player", insertable = false , updatable = false)
+    private Jogadores jogador;
 
 
     public Integer getNmrPartidasPlayer(){
@@ -42,5 +47,14 @@ public class estatisticas_jogadores {
 
     public void setTotalPontosPlayer(Integer totalPontosPlayer) {
         this.totalPontosPlayer = totalPontosPlayer;
+    }
+    @Override
+    public String toString(){
+        return "EstatisticasJogadores[" +
+                "id_player = " + id_player  +
+                " , nmr_partidas_player = " + getNmrPartidasPlayer() +
+                " , nmr_jogos = "           + getNmrJogos() +
+                " , total_pontos_player = " + getTotalPontosPlayer() +
+                "]";
     }
 }

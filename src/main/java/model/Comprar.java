@@ -1,34 +1,51 @@
 package model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import orm.interfaces.IComprar;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalTime;
+
 
 @Entity
 @Table(name = "Comprar")
-
 public class Comprar {
     @EmbeddedId
     private ComprarId id;
 
     @Column(name = "data_compra")
-    private LocalTime dataCompra;
+    private LocalDate dataCompra;
 
     @Column(name = "preco")
     private Float preco;
 
+    @ManyToOne
+    @MapsId("idPlayer")
+    @JoinColumn(name = "id_player")
+    private Jogadores jogador;
 
-    public LocalTime getDataCompra(){
+    @ManyToOne
+    @MapsId("idGame")
+    @JoinColumn(name = "id_game")
+    private Jogos jogo;
+
+    public ComprarId getId() {
+        return id;
+    }
+
+    public void setId(ComprarId id) {
+        this.id = id;
+    }
+
+    public LocalDate getDataCompra() {
         return dataCompra;
     }
 
-    public void setDataCompra(LocalTime dataCompra) {
+
+    public void setDataCompra(LocalDate dataCompra) {
         this.dataCompra = dataCompra;
     }
+
 
     public Float getPreco() {
         return preco;
@@ -36,5 +53,10 @@ public class Comprar {
 
     public void setPreco(Float preco) {
         this.preco = preco;
+    }
+
+    @Override
+    public String toString() {
+        return "Comprar[" + "id_game=" + id.getIdGame() + " ,id_player=" + id.getIdPlayer() + " ,nome_regiao=" + id.getNomeRegiao() + " ,data_compra=" + getDataCompra() + " ,preco=" + getPreco() + "]";
     }
 }

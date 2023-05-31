@@ -1,5 +1,6 @@
-package data_access;
-/*
+/*package data_access;
+
+import data_access.JPA_unit_of_work;
 import data_mappers.*;
 import jakarta.persistence.LockModeType;
 import model.*;
@@ -61,43 +62,43 @@ public class Mappers {
     protected class ConversaMapper implements IConversaMapper {
 
         @Override
-        public Integer Create(Conversa entity) {
+        public Integer Create(Conversas entity) {
             unitOfWork.beginTransaction();
             unitOfWork._em.persist(entity);
             unitOfWork.commit();
-            return entity.getId();
+            return entity.getIdConversa();
         }
 
         @Override
-        public Conversa Read(Integer id) {
-            return unitOfWork._em.find(Conversa.class, id);
+        public Conversas Read(Integer id) {
+            return unitOfWork._em.find(Conversas.class, id);
         }
 
         @Override
-        public Integer Update(Conversa entity) {
+        public Integer Update(Conversas entity) {
             unitOfWork.beginTransaction();
-            Conversa cr = unitOfWork._em.find(Conversa.class, entity.getId(), LockModeType.PESSIMISTIC_WRITE);
+            Conversas cr = unitOfWork._em.find(Conversas.class, entity.getIdConversa(), LockModeType.PESSIMISTIC_WRITE);
             if (cr == null) {
                 System.out.println("Conversa not found");
                 return null;
             }
-            cr.setId(entity.getId());
+            cr.setIdConversa(entity.getIdConversa());
             cr.setNomeConversa(entity.getNomeConversa());
             unitOfWork.commit();
-            return entity.getId();
+            return entity.getIdConversa();
         }
 
         @Override
-        public Integer Delete(Conversa entity) {
+        public Integer Delete(Conversas entity) {
             unitOfWork.beginTransaction();
-            Conversa cr = unitOfWork._em.find(Conversa.class, entity.getId(), LockModeType.PESSIMISTIC_WRITE);
+            Conversas cr = unitOfWork._em.find(Conversas.class, entity.getIdConversa(), LockModeType.PESSIMISTIC_WRITE);
             if (cr == null) {
                 System.out.println("Conversa not found");
                 return null;
             }
             unitOfWork._em.remove(entity);
             unitOfWork.commit();
-            return cr.getId();
+            return cr.getIdConversa();
         }
     }
 
@@ -150,22 +151,22 @@ public class Mappers {
 
 
         @Override
-        public Integer Create(EstatisticasJogadores entity) {
+        public Integer Create(estatisticas_jogadores entity) {
             return null;
         }
 
         @Override
-        public EstatisticasJogadores Read(Integer id) {
-            return unitOfWork._em.find(EstatisticasJogadores.class, id);
+        public estatisticas_jogadores Read(Integer id) {
+            return unitOfWork._em.find(estatisticas_jogadores.class, id);
         }
 
         @Override
-        public Integer Update(EstatisticasJogadores entity) {
+        public Integer Update(estatisticas_jogadores entity) {
             return null;
         }
 
         @Override
-        public Integer Delete(EstatisticasJogadores entity) {
+        public Integer Delete(estatisticas_jogadores entity) {
             return null;
         }
     }
@@ -173,22 +174,22 @@ public class Mappers {
     protected class EstatisticasJogosMapper implements IEstatisticasJogosMapper {
 
         @Override
-        public Integer Create(EstatisticasJogo entity) {
+        public Character Create(estatisticas_jogo entity) {
             return null;
         }
 
         @Override
-        public EstatisticasJogo Read(Integer id) {
-            return unitOfWork._em.find(EstatisticasJogo.class, id);
+        public estatisticas_jogo Read(Character id) {
+            return unitOfWork._em.find(estatisticas_jogo.class, id);
         }
 
         @Override
-        public Integer Update(EstatisticasJogo entity) {
+        public Character Update(estatisticas_jogo entity) {
             return null;
         }
 
         @Override
-        public Integer Delete(EstatisticasJogo entity) {
+        public Character Delete(estatisticas_jogo entity) {
             return null;
         }
     }
@@ -238,43 +239,43 @@ public class Mappers {
     protected class JogosMapper implements IJogosMapper {
 
         @Override
-        public String Create(Jogos entity) {
+        public Character Create(Jogos entity) {
             unitOfWork.beginTransaction();
             unitOfWork._em.persist(entity);
             unitOfWork.commit();
-            return entity.getId();
+            return entity.getIdGame();
         }
 
         @Override
-        public Jogos Read(String id) {
+        public Jogos Read(Character id) {
             return unitOfWork._em.find(Jogos.class, id);
         }
 
         @Override
-        public String Update(Jogos entity) {
+        public Character Update(Jogos entity) {
             unitOfWork.beginTransaction();
-            Jogos cr = unitOfWork._em.find(Jogos.class, entity.getId(), LockModeType.PESSIMISTIC_WRITE);
+            Jogos cr = unitOfWork._em.find(Jogos.class, entity.getIdGame(), LockModeType.PESSIMISTIC_WRITE);
             if (cr == null) {
                 System.out.println("Jogo not found.");
                 return null;
             }
-            cr.setId(entity.getId());
+            cr.setIdGame(entity.getIdGame());
             cr.setUrl(entity.getUrl());
-            cr.setNome_game(entity.getNome_game());
-            return entity.getId();
+            cr.setNomeGame(entity.getNomeGame());
+            return entity.getIdGame();
         }
 
         @Override
-        public String Delete(Jogos entity) {
+        public Character Delete(Jogos entity) {
             unitOfWork.beginTransaction();
-            Jogos cr = unitOfWork._em.find(Jogos.class, entity.getId(), LockModeType.PESSIMISTIC_WRITE);
+            Jogos cr = unitOfWork._em.find(Jogos.class, entity.getIdGame(), LockModeType.PESSIMISTIC_WRITE);
             if (cr == null) {
                 System.out.println("Jogo not found");
                 return null;
             }
             unitOfWork._em.remove(cr);
             unitOfWork.commit();
-            return cr.getId();
+            return cr.getIdGame();
         }
     }
 
@@ -302,7 +303,7 @@ public class Mappers {
                 return null;
             }
             //Este setter de id é diferente dos outros
-            cr.setIdConversa(entity.getIdConversa());
+            cr.setId(entity.getId());
             cr.setRemetente(entity.getRemetente());
             cr.setDataHoraMsg(entity.getDataHoraMsg());
             return entity.getId();
@@ -374,7 +375,7 @@ public class Mappers {
     protected class NormalMapper implements INormalMapper {
 
         @Override
-        public NormalId Create(Normal entity) {
+        public Normald Create(Normal entity) {
             unitOfWork.beginTransaction();
             unitOfWork._em.persist(entity);
             unitOfWork.commit();
@@ -382,12 +383,12 @@ public class Mappers {
         }
 
         @Override
-        public Normal Read(NormalId id) {
+        public Normal Read(Normald id) {
             return unitOfWork._em.find(Normal.class, id);
         }
 
         @Override
-        public NormalId Update(Normal entity) {
+        public Normald Update(Normal entity) {
             unitOfWork.beginTransaction();
             Normal cr = unitOfWork._em.find(Normal.class, entity.getId(), LockModeType.PESSIMISTIC_WRITE);
             if (cr == null) {
@@ -409,7 +410,7 @@ public class Mappers {
         }
 
         @Override
-        public NormalId Delete(Normal entity) {
+        public Normald Delete(Normal entity) {
             unitOfWork.beginTransaction();
             Normal cr = unitOfWork._em.find(Normal.class, entity.getId(), LockModeType.PESSIMISTIC_WRITE);
             if (cr == null) {
@@ -422,14 +423,15 @@ public class Mappers {
         }
     }
 
-    protected class RegiaoMapper implements IRegiaoMapper{
+    protected class RegiaoMapper implements IRegiaoMapper {
 
         @Override
         public String Create(Regiao entity) {
             unitOfWork.beginTransaction();
             unitOfWork._em.persist(entity);
             unitOfWork.commit();
-            return entity.getNomeRegiao();        }
+            return entity.getNomeRegiao();
+        }
 
         @Override
         public Regiao Read(String id) {

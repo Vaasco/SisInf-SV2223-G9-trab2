@@ -7,5 +7,7 @@ public interface IUnitOfWork {
     void flush();
     void connect();
 
+    void close();
+
 
 }

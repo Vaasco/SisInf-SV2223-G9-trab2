@@ -1,9 +1,8 @@
 package model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import orm.interfaces.IJogaMj;
+
 
 @Entity
 @Table(name = "joga_mj")
@@ -14,6 +13,20 @@ public class JogaMj {
 
     @Column(name = "pontuacao_mj")
     private Integer pontuacaoMj;
+
+    @ManyToOne
+    @MapsId("idPlayer")
+    @JoinColumn(name = "id_player")
+    private Jogadores jogador;
+
+    @ManyToOne
+    @MapsId("id")
+    @JoinColumns({
+            @JoinColumn(name = "nome_regiao", referencedColumnName = "nome_regiao", insertable = false , updatable = false),
+            @JoinColumn(name = "id_game", referencedColumnName = "id_game", insertable = false, updatable = false),
+            @JoinColumn(name = "nmr_seq_partida", referencedColumnName = "nmr_seq_partida", insertable = false, updatable = false)
+    })
+    private Multijogador multijogador;
 
 
     public JogaMjId getId() {
@@ -30,5 +43,16 @@ public class JogaMj {
 
     public void setPontuacaoMj(Integer pontuacaoMj) {
         this.pontuacaoMj = pontuacaoMj;
+    }
+
+    @Override
+    public String toString(){
+        return "JogaMj[" +
+                "nmr_seq-partida = "    + id.getNmrSeqPartida() +
+                " , id_game = "         + id.getIdGame() +
+                " , nome_regiao = "     + id.getNomeRegiao() +
+                " , id_player = "       + id.getIdPlayer() +
+                " , pontuacao_mj = "    + getPontuacaoMj() +
+                "]";
     }
 }

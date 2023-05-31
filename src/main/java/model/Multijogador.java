@@ -1,18 +1,15 @@
 package model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 
 @Entity
 @Table(name = "multijogador")
-public class Multijogador {
+public class Multijogador  {
     @EmbeddedId
     private MultijogadorId id;
 
@@ -28,35 +25,76 @@ public class Multijogador {
     @Column(name = "id_player")
     private Integer idPlayer;
 
-    public String getEstadoPartida() {
+    @OneToMany(mappedBy = "multijogador")
+    private List<JogaMj> JogaMj;
+
+    @ManyToOne
+    @JoinColumn(name = "nome_regiao" , insertable = false , updatable = false)
+    private Regiao regiaoMultijogador;
+
+    @ManyToOne
+    @JoinColumn(name = "id_game",insertable = false,updatable = false)
+    private Jogos jogoMultijogador;
+
+    public MultijogadorId getId(){
+        return id;
+    }
+
+    void setMultijogadorId(MultijogadorId id){
+        this.id = id;
+    }
+
+    public String getEstadoPartida(){
         return estadoPartida;
     }
 
-    public void setEstadoPartida(String estadoPartida) {
+    void setEstadoPartida(String estadoPartida){
         this.estadoPartida = estadoPartida;
     }
 
-    public LocalTime getDataHoraInicio() {
+    public LocalTime getDataHoraInicio(){
         return dataHoraInicio;
     }
 
-    public void setDataHoraInicio(LocalTime dataHoraInicio) {
+    void setDataHoraInicio(LocalTime dataHoraInicio){
         this.dataHoraInicio = dataHoraInicio;
     }
 
-    public LocalTime getDataHoraFim() {
-        return dataHoraFim;
+    public LocalTime getDataHoraFim(){
+        return dataHoraInicio;
     }
 
-    public void setDataHoraFim(LocalTime dataHoraFim) {
+    void setDataHoraFim(LocalTime dataHoraFim){
         this.dataHoraFim = dataHoraFim;
     }
 
-    public Integer getIdPlayer() {
+    public Integer getIdPlayer(){
         return idPlayer;
     }
 
-    public void setIdPlayer(Integer idPlayer) {
+    void setIdPlayer(Integer idPlayer){
         this.idPlayer = idPlayer;
+    }
+
+    public Regiao getNomeRegiao() {
+        return regiaoMultijogador;
+    }
+
+    void setNomeRegiao( Regiao regiaoMultijogador){
+        this.regiaoMultijogador = regiaoMultijogador;
+    }
+
+
+    @Override
+    public String toString(){
+        return "Multijogador[" +
+                "nome_regiao = "         + id.getNomeRegiao() +
+                " , id_game = "             + id.getIdGame() +
+                " , nmr_seq_partida = "     + id.getNmrSeqPartida() +
+                " , estado_partida = "      + getEstadoPartida() +
+                " , data_hora_inicio = "    + getDataHoraInicio() +
+                " , data_hora_fim = "       + getDataHoraFim() +
+                " , id_player = "           + getIdPlayer() +
+                "]";
     }
 }

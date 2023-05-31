@@ -1,6 +1,7 @@
 package model;
 
 import jakarta.persistence.*;
+import orm.interfaces.IMensagens;
 
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -25,36 +26,70 @@ public class Mensagens {
     @Column(name = "data_hora_msg")
     private LocalTime dataHoraMsg;
 
-    public MensagensId getId() {
-        return id;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_conversa", insertable = false, updatable = false)
+    private Conversas conversa;
 
-    public void setId(MensagensId id) {
-        this.id = id;
-    }
 
     public Integer getRemetente() {
         return remetente;
     }
 
-    public void setRemetente(Integer remetente) {
-        this.remetente = remetente;
-    }
-
-    public String getRegiaoRemetente() {
-        return regiaoRemetente;
-    }
 
     public void setRegiaoRemetente(String regiaoRemetente) {
         this.regiaoRemetente = regiaoRemetente;
     }
 
+
+    public void setRemetente(Integer remetente) {
+        this.remetente = remetente;
+    }
+
+
+    public String getRegiaoRemetente() {
+        return regiaoRemetente;
+    }
+
+
     public LocalTime getDataHoraMsg() {
         return dataHoraMsg;
     }
+
+
+    public void setId(MensagensId id) {
+        this.id = id;
+    }
+
 
     public void setDataHoraMsg(LocalTime dataHoraMsg) {
         this.dataHoraMsg = dataHoraMsg;
     }
 
+
+    public MensagensId getId() {
+        return id;
+    }
+
+
+    public String getTexto() {
+        return texto;
+    }
+
+
+    public void setTexto(String texto) {
+        this.texto = texto;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Mensagens[" +
+                "id_conversa = " + id.getIdConversa() +
+                " , nmr_seq_msg = " + id.getNmrSeqMsg() +
+                " , texto = " + getTexto() +
+                " , remetente = " + getRemetente() +
+                " , regiao_remetente = " + getRegiaoRemetente() +
+                " , data_hora_msm = " + getDataHoraMsg() +
+                "]";
+    }
 }

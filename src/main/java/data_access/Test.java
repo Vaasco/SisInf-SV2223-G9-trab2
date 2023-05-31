@@ -13,14 +13,13 @@ public class Test {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAEx");
         try (emf; EntityManager em = emf.createEntityManager()) {
             //Criar um aluno
-            System.out.println("Ler um jogador");
+            System.out.println("Ler um tem");
             em.getTransaction().begin();
-
-            String sql = "SELECT j FROM  Tem j";
+            String sql = "SELECT j FROM Jogadores j";
             Query query = em.createQuery(sql);
-            List<Tem> la = query.getResultList();
+            List<Jogadores > la = query.getResultList();
 
-            for (Tem ax : la) {
+            for (Jogadores   ax : la) {
                 System.out.println(ax.toString());
             }
 
@@ -33,7 +32,7 @@ public class Test {
     public static void main(String[] args) {
         try {
             test1();
-        } catch (Exception e) {
+        } catch(Exception e) {
             e.printStackTrace();
         }
     }

@@ -1,11 +1,7 @@
 package model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
-import javax.xml.namespace.QName;
 import java.time.LocalTime;
 
 @Entity
@@ -78,5 +74,33 @@ public class Normal {
 
     public void setGrauDificuldade(Integer grauDificuldade) {
         this.grauDificuldade = grauDificuldade;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_player", insertable = false, updatable = false)
+    private Jogadores jogador;
+
+    @ManyToOne
+    @JoinColumn(name = "nome_regiao", insertable = false, updatable = false)
+    private Regiao regiaoNormal;
+
+    @ManyToOne
+    @JoinColumn(name = "id_game", insertable = false, updatable = false)
+    private Jogos jogoNormal;
+
+
+    @Override
+    public String toString() {
+        return "Normal[" +
+                "nome_regiao = " + id.getNomeRegiao() +
+                " , id_game = " + id.getIdGame() +
+                " , nmr_seq_partida = " + id.getNmrSeqPartida() +
+                " , estado_partida = " + getEstadoPartida() +
+                " , data_hora_inicio = " + getDataHoraInicio() +
+                " , data_hora_fim = " + getDataHoraFim() +
+                " , pontuacao_n = " + getPontuacaoN() +
+                " , id_player = " + getIdPlayer() +
+                " , grau_dificuldade = " + getGrauDificuldade() +
+                "]";
     }
 }
