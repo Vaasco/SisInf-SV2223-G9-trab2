@@ -32,7 +32,7 @@ public class JogaMjId implements Serializable {
     private String email;
 
     public Integer getNmrSeqPartida() {
-        return id.getNmrSeqPartida();
+        return nmrSeqPartida;
     }
 
     public void setNmrSeqPartida(Integer nmrSeqPartida) {
@@ -48,7 +48,7 @@ public class JogaMjId implements Serializable {
     }
 
     public String getNomeRegiao() {
-        return id.getNomeRegiao();
+        return nomeRegiao;
     }
 
     public void setNomeRegiao(String nomeRegiao) {

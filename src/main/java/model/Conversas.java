@@ -1,7 +1,6 @@
 package model;
 
 import jakarta.persistence.*;
-import orm.interfaces.IConversa;
 
 import java.util.List;
 

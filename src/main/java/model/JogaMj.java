@@ -20,7 +20,7 @@ public class JogaMj {
     private Jogadores jogador;
 
     @ManyToOne
-    @MapsId("id")
+    @MapsId("nmrSeqPartida")
     @JoinColumns({
             @JoinColumn(name = "nome_regiao", referencedColumnName = "nome_regiao", insertable = false , updatable = false),
             @JoinColumn(name = "id_game", referencedColumnName = "id_game", insertable = false, updatable = false),

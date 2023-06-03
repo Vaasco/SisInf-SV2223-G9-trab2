@@ -30,7 +30,7 @@ public class TemId implements Serializable {
     }
 
     public String getNomeCracha() {
-        return id.getNomeCracha();
+        return nomeCracha;
     }
 
     public void setNomeCracha(String nomeCracha) {
@@ -38,7 +38,7 @@ public class TemId implements Serializable {
     }
 
     public Character getIdGame() {
-        return id.getIdGame();
+        return idGame;
     }
 
     public void setIdGame(Character idGame) {
