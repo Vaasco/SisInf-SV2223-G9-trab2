@@ -37,12 +37,17 @@ public class App {
         System.out.println(++i + ". Players Info");
     }
 
-    public void runApp() throws Exception {
-        displayMenu();
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter a command number: ");
-        String command = scanner.nextLine();
-        new commands().getCommands().get(command).execute();
+    public void runApp() {
+        try{
+            displayMenu();
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Enter a command number: ");
+            String command = scanner.nextLine();
+            new commands().getCommands().get(command).execute();
+        }catch (Exception e){
+
+        }
+
 
     }
 

@@ -82,3 +82,4 @@ public class JogaMjId implements Serializable {
     public String getEmail() {
         return email;
     }
+}
