@@ -1,17 +1,18 @@
-/*package data_access;
+package data_access;
 
-import data_access.JPA_unit_of_work;
+import businessLogic.DataScopes.DataScope;
 import data_mappers.*;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.LockModeType;
 import model.*;
-import orm.interfaces.ICrachas;
-import orm.interfaces.IEstatisticasJogadores;
+;
+
 
 public class Mappers {
 
-    private final JPA_unit_of_work unitOfWork;
+    private final UnitOfWork unitOfWork;
 
-    public Mappers(JPA_unit_of_work context) {
+    public Mappers(UnitOfWork context) {
         this.unitOfWork = context;
     }
 
@@ -102,49 +103,7 @@ public class Mappers {
         }
     }
 
-    protected class CrachasMapper implements ICrachasMapper {
 
-        @Override
-        public CrachasId Create(Crachas entity) {
-            unitOfWork.beginTransaction();
-            unitOfWork._em.persist(entity);
-            unitOfWork.commit();
-            return entity.getId();
-        }
-
-        @Override
-        public Crachas Read(CrachasId id) {
-            return unitOfWork._em.find(Crachas.class, LockModeType.PESSIMISTIC_WRITE);
-        }
-
-        @Override
-        public CrachasId Update(Crachas entity) {
-            unitOfWork.beginTransaction();
-            Crachas cr = unitOfWork._em.find(Crachas.class, entity.getId(), LockModeType.PESSIMISTIC_WRITE);
-            if (cr == null) {
-                System.out.println("Crachas not found.");
-                return null;
-            }
-            cr.setId(entity.getId());
-            cr.setUrl(entity.getUrl());
-            cr.setLimitePontos(entity.getLimitePontos());
-            unitOfWork.commit();
-            return entity.getId();
-        }
-
-        @Override
-        public CrachasId Delete(Crachas entity) {
-            unitOfWork.beginTransaction();
-            Crachas cr = unitOfWork._em.find(Crachas.class, entity.getId(), LockModeType.PESSIMISTIC_WRITE);
-            if (cr == null) {
-                System.out.println("Crachas not found");
-                return null;
-            }
-            unitOfWork._em.remove(cr);
-            unitOfWork.commit();
-            return cr.getId();
-        }
-    }
 
     // TODO: 28/05/2023 Não sei se as implementações da classe em baixo estão corretas!
     protected class EstatisticasJogadoresMapper implements IEstatisticasJogadoresMapper {
@@ -236,10 +195,10 @@ public class Mappers {
         }
     }
 
-    protected class JogosMapper implements IJogosMapper {
+    public class JogosMapper implements IJogosMapper {
 
         @Override
-        public Character Create(Jogos entity) {
+        public String Create(Jogos entity) {
             unitOfWork.beginTransaction();
             unitOfWork._em.persist(entity);
             unitOfWork.commit();
@@ -247,12 +206,12 @@ public class Mappers {
         }
 
         @Override
-        public Jogos Read(Character id) {
+        public Jogos Read(String id) {
             return unitOfWork._em.find(Jogos.class, id);
         }
 
         @Override
-        public Character Update(Jogos entity) {
+        public String Update(Jogos entity) {
             unitOfWork.beginTransaction();
             Jogos cr = unitOfWork._em.find(Jogos.class, entity.getIdGame(), LockModeType.PESSIMISTIC_WRITE);
             if (cr == null) {
@@ -266,7 +225,7 @@ public class Mappers {
         }
 
         @Override
-        public Character Delete(Jogos entity) {
+        public String Delete(Jogos entity) {
             unitOfWork.beginTransaction();
             Jogos cr = unitOfWork._em.find(Jogos.class, entity.getIdGame(), LockModeType.PESSIMISTIC_WRITE);
             if (cr == null) {
@@ -302,7 +261,7 @@ public class Mappers {
                 System.out.println("Mensagem not found.");
                 return null;
             }
-            //Este setter de id é diferente dos outros
+            //Este setter de id difere dos outros
             cr.setId(entity.getId());
             cr.setRemetente(entity.getRemetente());
             cr.setDataHoraMsg(entity.getDataHoraMsg());
@@ -323,149 +282,143 @@ public class Mappers {
         }
     }
 
-    protected class MultijogadorMapper implements IMultijogadorMapper {
+    public class JogadoresMapper implements IJogadoresMapper {
 
         @Override
-        public MultijogadorId Create(Multijogador entity) {
-            unitOfWork.beginTransaction();
-            unitOfWork._em.persist(entity);
-            unitOfWork.commit();
-            return entity.getId();
+        public Integer Create(Jogadores entity) throws Exception {
+            try (DataScope ds = new DataScope()) {
+                EntityManager em = ds.getEntityManager();
+                em.getTransaction().begin();
+                em.persist(entity);
+                em.getTransaction().commit();
+                return entity.getIdPlayer();
+            }
         }
 
         @Override
-        public Multijogador Read(MultijogadorId id) {
-            return unitOfWork._em.find(Multijogador.class, id);
+        public Jogadores Read(Integer id) {
+            return unitOfWork._em.find(Jogadores.class, id);
         }
 
         @Override
-        public MultijogadorId Update(Multijogador entity) {
+        public Integer Update(Jogadores entity) {
             unitOfWork.beginTransaction();
-            Multijogador cr = unitOfWork._em.find(Multijogador.class, entity.getId(), LockModeType.PESSIMISTIC_WRITE);
+            Jogadores cr = unitOfWork._em.find(Jogadores.class, entity.getIdPlayer(), LockModeType.PESSIMISTIC_WRITE);
             if (cr == null) {
-                System.out.println("Multijogador not found.");
+                System.out.println("Mensagem not found.");
                 return null;
             }
-
-            cr.setId(entity.getId());
-            cr.setDataHoraFim(entity.getDataHoraFim());
-            cr.setDataHoraInicio(entity.getDataHoraInicio());
-            cr.setEstadoPartida(entity.getEstadoPartida());
-            cr.setJogadores(entity.getJogadores());
-            cr.setJogos(entity.getJogos());
+            cr.setIdPlayer(entity.getIdPlayer());
+            cr.setEmail(entity.getEmail());
+            cr.setUsername(entity.getUsername());
+            cr.setEstadoPlayer(entity.getEstadoPlayer());
             cr.setNomeRegiao(entity.getNomeRegiao());
-            unitOfWork.commit();
-            return entity.getId();
+            return entity.getIdPlayer();
         }
 
+
         @Override
-        public MultijogadorId Delete(Multijogador entity) {
+        public Integer Delete(Jogadores entity) {
             unitOfWork.beginTransaction();
-            Multijogador cr = unitOfWork._em.find(Multijogador.class, entity.getId(), LockModeType.PESSIMISTIC_WRITE);
+            Jogadores cr = unitOfWork._em.find(Jogadores.class, entity.getIdPlayer(), LockModeType.PESSIMISTIC_WRITE);
             if (cr == null) {
-                System.out.println("Multijogador not found");
+                System.out.println("Mensagem not found");
                 return null;
             }
             unitOfWork._em.remove(cr);
             unitOfWork.commit();
-            return cr.getId();
+            return cr.getIdPlayer();
         }
     }
 
-    protected class NormalMapper implements INormalMapper {
+    public class CrachaMapper implements ICrachaMapper {
 
         @Override
-        public Normald Create(Normal entity) {
-            unitOfWork.beginTransaction();
-            unitOfWork._em.persist(entity);
-            unitOfWork.commit();
-            return entity.getId();
+        public String Create(Crachas entity) throws Exception {
+            try (DataScope ds = new DataScope()) {
+                EntityManager em = ds.getEntityManager();
+                em.getTransaction().begin();
+                em.persist(entity);
+                em.getTransaction().commit();
+                return entity.getId().getNomeCracha();
+            }
+
         }
 
         @Override
-        public Normal Read(Normald id) {
-            return unitOfWork._em.find(Normal.class, id);
+        public Crachas Read(String id) throws Exception {
+            return null;
+        }
+
+        @Override
+        public Crachas read(String idGame, String nomeCracha) throws Exception {
+            try (DataScope ds = new DataScope()) {
+                EntityManager em = ds.getEntityManager();
+                Crachas cracha = em.find(Crachas.class, new CrachasId(idGame, nomeCracha));
+                ds.validateWork();
+                return cracha;
+            }
+        }
+
+
+        @Override
+        public String Update(Crachas entity) throws Exception {
+            try (DataScope ds = new DataScope()) {
+                EntityManager em = ds.getEntityManager();
+                em.flush();
+                Crachas a = em.find(Crachas.class, entity, LockModeType.PESSIMISTIC_WRITE);
+                a.setId(a.getId());
+                a.setUrl(a.getUrl());
+                a.setLimitePontos(a.getLimitePontos());
+                ds.validateWork();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                throw e;
+            }
+            return null;
+        }
+
+        @Override
+        public String Delete(Crachas entity) {
+            return null;
+        }
+
+    }
+
+    public class NormalMapper implements INormalMapper {
+
+        @Override
+        public Normald Create(Normal entity) throws Exception {
+            return null;
+        }
+
+        @Override
+        public Normal Read(Normald id) throws Exception {
+            return null;
+        }
+
+        @Override
+        public Normal read(String idGame, String nomeRegiao) throws Exception {
+            try (DataScope ds = new DataScope()) {
+                EntityManager em = ds.getEntityManager();
+                Normal normal = em.find(Normal.class, new Normald(idGame, nomeRegiao));
+                ds.validateWork();
+                return normal;
+            }
         }
 
         @Override
         public Normald Update(Normal entity) {
-            unitOfWork.beginTransaction();
-            Normal cr = unitOfWork._em.find(Normal.class, entity.getId(), LockModeType.PESSIMISTIC_WRITE);
-            if (cr == null) {
-                System.out.println("Normal not found.");
-                return null;
-            }
-
-            cr.setId(entity.getId());
-            cr.setDataHoraFim(entity.getDataHoraFim());
-            cr.setDataHoraInicio(entity.getDataHoraInicio());
-            cr.setEstadoPartida(entity.getEstadoPartida());
-            cr.setGrauDificuldade(entity.getGrauDificuldade());
-            cr.setJogadores(entity.getJogadores());
-            cr.setJogos(entity.getJogos());
-            cr.setNomeRegiao(entity.getNomeRegiao());
-            cr.setPontuacaoN(entity.getPontuacaoN());
-            unitOfWork.commit();
-            return entity.getId();
+            return null;
         }
 
         @Override
         public Normald Delete(Normal entity) {
-            unitOfWork.beginTransaction();
-            Normal cr = unitOfWork._em.find(Normal.class, entity.getId(), LockModeType.PESSIMISTIC_WRITE);
-            if (cr == null) {
-                System.out.println("Normal not found");
-                return null;
-            }
-            unitOfWork._em.remove(cr);
-            unitOfWork.commit();
-            return cr.getId();
+            return null;
         }
+
+
     }
-
-    protected class RegiaoMapper implements IRegiaoMapper {
-
-        @Override
-        public String Create(Regiao entity) {
-            unitOfWork.beginTransaction();
-            unitOfWork._em.persist(entity);
-            unitOfWork.commit();
-            return entity.getNomeRegiao();
-        }
-
-        @Override
-        public Regiao Read(String id) {
-            return unitOfWork._em.find(Regiao.class, id);
-        }
-
-        @Override
-        public String Update(Regiao entity) {
-            unitOfWork.beginTransaction();
-            Regiao cr = unitOfWork._em.find(Regiao.class, entity.getNomeRegiao(), LockModeType.PESSIMISTIC_WRITE);
-            if (cr == null) {
-                System.out.println("Regiao not found.");
-                return null;
-            }
-
-            cr.setNomeRegiao(entity.getNomeRegiao());
-            unitOfWork.commit();
-            return entity.getNomeRegiao();
-        }
-
-        @Override
-        public String Delete(Regiao entity) {
-            unitOfWork.beginTransaction();
-            Regiao cr = unitOfWork._em.find(Regiao.class, entity.getNomeRegiao(), LockModeType.PESSIMISTIC_WRITE);
-            if (cr == null) {
-                System.out.println("Regiao not found");
-                return null;
-            }
-            unitOfWork._em.remove(cr);
-            unitOfWork.commit();
-            return cr.getNomeRegiao();
-        }
-    }
-
 
 }
-*/
+

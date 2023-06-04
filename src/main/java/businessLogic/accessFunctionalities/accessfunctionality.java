@@ -1,9 +1,12 @@
 package businessLogic.accessFunctionalities;
 
 import businessLogic.DataScopes.DataScope;
+import data_access.Mappers;
+import data_access.UnitOfWork;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
-
+import jakarta.persistence.TypedQuery;
+import model.*;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -108,7 +111,7 @@ public class accessfunctionality {
                 //System.out.println(row);
                 int playerId = (int) row[0];
                 String gameId = (String) row[1];
-                System.out.printf("%4s , %10s",playerId,gameId);
+                System.out.printf("%4s , %10s", playerId, gameId);
             }
             ds.validateWork();
         } catch (Exception e) {
@@ -201,6 +204,56 @@ public class accessfunctionality {
         }
     }
 
+    //todo resolver este problema!
+    // 1b) 2h (sem aceder a procedimentos e functions)
+    public static void associar_cracha_np(Integer id_jogador, String id_game, String cracha_nome) throws Exception {
+        try (DataScope ds = new DataScope()) {
+            EntityManager em = ds.getEntityManager();
+            Integer totalPontos;
+            UnitOfWork unitOfWork = new UnitOfWork();
+            Mappers mappers = new Mappers(unitOfWork);
+            //Verificar os parâmetros
+            if (id_jogador.toString().length() != 4) throw new IllegalArgumentException("Invalid Id jogador!");
+            if (id_game.length() != 10) throw new IllegalArgumentException("Invalid Id jogo!");
+            if (cracha_nome.length() > 40) throw new IllegalArgumentException("Invalid nome cracha!");
+            String sql = "Select n FROM Normal n WHERE n.idPlayer = ?1 AND n.jogoNormal.idGame = ?2";
+            TypedQuery<Normal> query = em.createQuery(sql, Normal.class);
+            query.setParameter(1, id_jogador);
+            query.setParameter(2, id_game);
+            Normal resultados = query.getSingleResult();
+            System.out.println(resultados);
+            ds.validateWork();
+
+        }
+
+    }
+
+    /**
+     * 1c) 2h (reutilizando os procedimentos armazenados e funções que a funcionalidade original usa)
+     * <p>
+     * A funcionalidade original não utiliza procedimentos armazenados, logo torna-se impossível
+     * realizar esta alínea, pois não iríamos reutilizar nada.
+     */
+
+    //Alínea 2a)
+    public static void optimistCrachaUpdate(String nomeCracha, String idGame) throws Exception {
+        try (DataScope ds = new DataScope()) {
+            EntityManager em = ds.getEntityManager();
+            //Verificação de parâmetros
+            if (nomeCracha.length() > 10) throw new IllegalArgumentException("Invalid nome cracha!");
+            if (idGame.length() > 10) throw new IllegalArgumentException("Invalid id do game");
+            String sql = "Select c from Crachas c where c.id.nomeCracha = ?1 and c.id.idGame = ?2";
+            TypedQuery<Crachas> query = em.createQuery(sql, Crachas.class);
+            query.setParameter(1,nomeCracha);
+            query.setParameter(2,idGame);
+            Crachas resultado = query.getSingleResult();
+            System.out.println(resultado);
+            Integer novosPontos = (int) (resultado.getLimitePontos() * 1.2);
+            resultado.setLimitePontos(novosPontos);
+            System.out.println(resultado);
+            ds.validateWork();
+        }
+    }
 
 
     public static void main(String[] args) throws Exception {

@@ -2,6 +2,8 @@ package model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
@@ -11,14 +13,26 @@ import java.util.Objects;
 public class Normald implements Serializable {
     private static final long serialVersionUID = -3081338204084435959L;
 
-    @Column(name = "nome_regiao" , nullable = false)
+    public Normald(String idGame, String nomeRegiao) {
+        this.idGame = idGame;
+        this.nomeRegiao = nomeRegiao;
+    }
+
+
+    @Column(name = "nome_regiao", nullable = false)
     private String nomeRegiao;
 
-    @Column(name = "id_game" , nullable = false)
-    private Character idGame;
+    @Column(name = "id_game", nullable = false)
+    private String idGame;
 
-    @Column(name = "nmr_seq_partida" , nullable = false)
+    @Column(name = "nmr_seq_partida", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer nmrSeqPartida;
+
+    public Normald() {
+
+    }
+
 
     public String getNomeRegiao() {
         return nomeRegiao;
@@ -28,12 +42,12 @@ public class Normald implements Serializable {
         this.nomeRegiao = nomeRegiao;
     }
 
-    public Character getIdGame() {
+    public String getIdGame() {
         return idGame;
     }
 
     public void setIdGame(Character idGame) {
-        this.idGame = idGame;
+        this.idGame = String.valueOf(idGame);
     }
 
     public Integer getNmrSeqPartida() {
@@ -45,7 +59,7 @@ public class Normald implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o){
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Normald entity = (Normald) o;

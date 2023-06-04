@@ -2,7 +2,7 @@ package model;
 
 
 import jakarta.persistence.*;
-import orm.interfaces.IEstatisticasJogo;
+
 
 
 @Entity

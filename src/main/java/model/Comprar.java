@@ -1,7 +1,7 @@
 package model;
 
 import jakarta.persistence.*;
-import orm.interfaces.IComprar;
+
 
 import java.time.LocalDate;
 import java.time.LocalTime;

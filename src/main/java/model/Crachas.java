@@ -1,13 +1,13 @@
 package model;
 
 import jakarta.persistence.*;
-import orm.interfaces.ICrachas;
+
 
 import java.util.List;
 
 @Entity
 @Table(name = "crachas")
-public class Crachas implements ICrachas {
+public class Crachas {
 
     @EmbeddedId
     private CrachasId id;
@@ -53,6 +53,17 @@ public class Crachas implements ICrachas {
     public void setLimitePontos(Integer limitePontos) {
         this.limitePontos = limitePontos;
     }
+
+    @Override
+    public String toString() {
+        return "Cracha[" +
+                "id_game = " + id.getIdGame() +
+                " , nome_cracha = " + id.getNomeCracha() +
+                " , url = " + getUrl() +
+                " ,limite_pontos=" + getLimitePontos() +
+                "]";
+    }
+
 
 
 }

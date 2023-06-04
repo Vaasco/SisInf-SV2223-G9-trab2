@@ -2,8 +2,8 @@ package model;
 
 
 import jakarta.persistence.*;
-import org.eclipse.persistence.jpa.config.Cascade;
-import orm.interfaces.IJogadores;
+
+
 
 import java.util.List;
 
@@ -57,11 +57,11 @@ public class Jogadores{
     private List<JogaMj> jogaMj;
 
 
-    public int getId() {
+    public int getIdPlayer() {
         return id_player;
     }
 
-    public void setId(int id) {
+    public void setIdPlayer(int id) {
         this.id_player = id;
     }
 

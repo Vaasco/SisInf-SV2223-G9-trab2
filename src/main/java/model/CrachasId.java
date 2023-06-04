@@ -10,18 +10,28 @@ import java.util.Objects;
 public class CrachasId implements Serializable {
 
     private static final long serialVersionUID = -3782802734831814999L;
+
+    public CrachasId(String idGame, String nomeCracha) {
+        this.idGame = idGame;
+        this.nomeCracha = nomeCracha;
+    }
+
     @Column(name = "id_game", nullable = false )
-    private Character idGame;
+    private String idGame;
 
     @Column(name = "nome_cracha" , nullable = false)
     private String nomeCracha;
 
-    public Character getIdGame() {
+    public CrachasId() {
+
+    }
+
+    public String getIdGame() {
         return idGame;
     }
 
     public void setIdGame(Character idGame) {
-        this.idGame = idGame;
+        this.idGame = String.valueOf(idGame);
     }
 
     public String getNomeCracha() {

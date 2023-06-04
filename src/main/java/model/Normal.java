@@ -7,6 +7,7 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "normal")
 public class Normal {
+
     @EmbeddedId
     private Normald id;
 
@@ -27,6 +28,10 @@ public class Normal {
 
     @Column(name = "grau_dificuldade")
     private Integer grauDificuldade;
+
+    public Normal() {
+
+    }
 
     public String getEstadoPartida() {
         return estadoPartida;

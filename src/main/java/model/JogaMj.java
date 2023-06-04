@@ -1,13 +1,12 @@
 package model;
 
 import jakarta.persistence.*;
-import orm.interfaces.IJogaMj;
+
 
 
 @Entity
 @Table(name = "joga_mj")
-public class JogaMj {
-
+public class JogaMj  {
     @EmbeddedId
     private JogaMjId id;
 

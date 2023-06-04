@@ -1,7 +1,7 @@
 package model;
 
 import jakarta.persistence.*;
-import orm.interfaces.IMensagens;
+
 
 import java.sql.Time;
 import java.sql.Timestamp;

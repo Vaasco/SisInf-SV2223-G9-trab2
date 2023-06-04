@@ -1,7 +1,7 @@
 package model;
 
 import jakarta.persistence.*;
-import orm.interfaces.IEstatisticasJogadores;
+
 
 @Entity
 @Table(name = "estatisticas_jogadores")

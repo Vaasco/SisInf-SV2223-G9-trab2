@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "multijogador")
-public class Multijogador  {
+public class Multijogador {
     @EmbeddedId
     private MultijogadorId id;
 
@@ -29,50 +29,50 @@ public class Multijogador  {
     private List<JogaMj> JogaMj;
 
     @ManyToOne
-    @JoinColumn(name = "nome_regiao" , insertable = false , updatable = false)
+    @JoinColumn(name = "nome_regiao", insertable = false, updatable = false)
     private Regiao regiaoMultijogador;
 
     @ManyToOne
-    @JoinColumn(name = "id_game",insertable = false,updatable = false)
+    @JoinColumn(name = "id_game", insertable = false, updatable = false)
     private Jogos jogoMultijogador;
 
-    public MultijogadorId getId(){
+    public MultijogadorId getId() {
         return id;
     }
 
-    void setMultijogadorId(MultijogadorId id){
+    void setMultijogadorId(MultijogadorId id) {
         this.id = id;
     }
 
-    public String getEstadoPartida(){
+    public String getEstadoPartida() {
         return estadoPartida;
     }
 
-    void setEstadoPartida(String estadoPartida){
+    void setEstadoPartida(String estadoPartida) {
         this.estadoPartida = estadoPartida;
     }
 
-    public LocalTime getDataHoraInicio(){
+    public LocalTime getDataHoraInicio() {
         return dataHoraInicio;
     }
 
-    void setDataHoraInicio(LocalTime dataHoraInicio){
+    void setDataHoraInicio(LocalTime dataHoraInicio) {
         this.dataHoraInicio = dataHoraInicio;
     }
 
-    public LocalTime getDataHoraFim(){
+    public LocalTime getDataHoraFim() {
         return dataHoraInicio;
     }
 
-    void setDataHoraFim(LocalTime dataHoraFim){
+    void setDataHoraFim(LocalTime dataHoraFim) {
         this.dataHoraFim = dataHoraFim;
     }
 
-    public Integer getIdPlayer(){
+    public Integer getIdPlayer() {
         return idPlayer;
     }
 
-    void setIdPlayer(Integer idPlayer){
+    void setIdPlayer(Integer idPlayer) {
         this.idPlayer = idPlayer;
     }
 
@@ -80,21 +80,24 @@ public class Multijogador  {
         return regiaoMultijogador;
     }
 
-    void setNomeRegiao( Regiao regiaoMultijogador){
+    void setNomeRegiao(Regiao regiaoMultijogador) {
         this.regiaoMultijogador = regiaoMultijogador;
     }
 
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Multijogador[" +
-                "nome_regiao = "         + id.getNomeRegiao() +
-                " , id_game = "             + id.getIdGame() +
-                " , nmr_seq_partida = "     + id.getNmrSeqPartida() +
-                " , estado_partida = "      + getEstadoPartida() +
-                " , data_hora_inicio = "    + getDataHoraInicio() +
-                " , data_hora_fim = "       + getDataHoraFim() +
-                " , id_player = "           + getIdPlayer() +
+                "nome_regiao = " + id.getNomeRegiao() +
+                " , id_game = " + id.getIdGame() +
+                " , nmr_seq_partida = " + id.getNmrSeqPartida() +
+                " , estado_partida = " + getEstadoPartida() +
+                " , data_hora_inicio = " + getDataHoraInicio() +
+                " , data_hora_fim = " + getDataHoraFim() +
+                " , id_player = " + getIdPlayer() +
                 "]";
     }
+
+
 }
+

@@ -1,7 +1,7 @@
 package model;
 
 import jakarta.persistence.*;
-import orm.interfaces.IJogos;
+
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public class Jogos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_game")
-    private Character idGame;
+    private String idGame;
 
     @Column(name = "nome_game")
     private String nomeGame;
@@ -37,12 +37,12 @@ public class Jogos {
     private List<Multijogador> multijogador;
 
 
-    public Character getIdGame() {
+    public String getIdGame() {
         return idGame;
     }
 
-    public void setIdGame(Character idGame) {
-        this.idGame = idGame;
+    public void setIdGame(String idGame) {
+        this.idGame = String.valueOf(idGame);
     }
 
     public String getNomeGame() {
