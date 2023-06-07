@@ -16,8 +16,7 @@ import java.util.List;
 
 public class accessfunctionality {
     //Alínea 2d
-
-    //criar jogador
+    //2d -- criar jogador
     public static void criar_jogador(String email, String username, String nome_regiao) {
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
@@ -32,7 +31,7 @@ public class accessfunctionality {
         }
     }
 
-    //desativar jogador
+    //2d -- desativar jogador
     public static void desativar_jogador(Integer id_player) {
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
@@ -46,7 +45,7 @@ public class accessfunctionality {
         }
     }
 
-    //banir jogador
+    //2d -- banir jogador
     public static void banir_jogador(Integer id_player) {
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
@@ -121,7 +120,6 @@ public class accessfunctionality {
         return resultTable;
     }
 
-
     //Alínea 2h
     public static void associar_cracha(Integer id_jogador, String id_game, String cracha_nome) {
         try (DataScope ds = new DataScope()) {
@@ -140,7 +138,6 @@ public class accessfunctionality {
 
     //Alínea 2i
     public static Integer iniciar_conversa(Integer id_jogador, String nome_chat) throws Exception {
-
         Integer ret;
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
@@ -158,8 +155,8 @@ public class accessfunctionality {
             return ret;
         }
     }
-    //Alínea 2j
 
+    //Alínea 2j
     public static void juntar_conversa(Integer id_jogador, Integer id_conv) {
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
@@ -176,7 +173,6 @@ public class accessfunctionality {
     }
 
     //Alínea 2k
-
     public static void enviar_mensagem(Integer id_jogador, Integer id_conv, String msg) throws Exception {
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
@@ -204,7 +200,6 @@ public class accessfunctionality {
         }
     }
 
-    //todo resolver este problema!
     // 1b) 2h (sem aceder a procedimentos e functions)
     public static void associar_cracha_np(Integer id_jogador, String id_game, String cracha_nome) throws Exception {
         try (DataScope ds = new DataScope()) {
@@ -213,19 +208,17 @@ public class accessfunctionality {
             UnitOfWork unitOfWork = new UnitOfWork();
             Mappers mappers = new Mappers(unitOfWork);
             //Verificar os parâmetros
-            if (id_jogador.toString().length() != 4) throw new IllegalArgumentException("Invalid Id jogador!");
+            if (id_jogador.toString().length() < 4) throw new IllegalArgumentException("Invalid Id jogador!");
             if (id_game.length() != 10) throw new IllegalArgumentException("Invalid Id jogo!");
             if (cracha_nome.length() > 40) throw new IllegalArgumentException("Invalid nome cracha!");
-            String sql = "Select n FROM Normal n WHERE n.idPlayer = ?1 AND n.jogoNormal.idGame = ?2";
+            String sql = "Select distinct n.idPlayer FROM Normal n WHERE n.idPlayer = ?1 AND n.jogoNormal.idGame = ?2";
             TypedQuery<Normal> query = em.createQuery(sql, Normal.class);
             query.setParameter(1, id_jogador);
             query.setParameter(2, id_game);
-            Normal resultados = query.getSingleResult();
-            System.out.println(resultados);
+            List<Normal> resultList = query.getResultList();
+            System.out.println("\n\n" + resultList + "\n\n");
             ds.validateWork();
-
         }
-
     }
 
     /**
@@ -244,8 +237,8 @@ public class accessfunctionality {
             if (idGame.length() > 10) throw new IllegalArgumentException("Invalid id do game");
             String sql = "Select c from Crachas c where c.id.nomeCracha = ?1 and c.id.idGame = ?2";
             TypedQuery<Crachas> query = em.createQuery(sql, Crachas.class);
-            query.setParameter(1,nomeCracha);
-            query.setParameter(2,idGame);
+            query.setParameter(1, nomeCracha);
+            query.setParameter(2, idGame);
             Crachas resultado = query.getSingleResult();
             System.out.println(resultado);
             Integer novosPontos = (int) (resultado.getLimitePontos() * 1.2);
@@ -258,7 +251,10 @@ public class accessfunctionality {
 
     public static void main(String[] args) throws Exception {
 
-        Integer idJogador = 1016;
-        System.out.println(jogador_total_info());
+        Integer idJogador = 1000;
+        String idGame = "0123456789";
+        String cracha = "Test Drive";
+        //System.out.println(jogador_total_info());
+        associar_cracha_np(idJogador, idGame, cracha);
     }
 }

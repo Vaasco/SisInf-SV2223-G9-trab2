@@ -5,7 +5,6 @@ import data_mappers.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.LockModeType;
 import model.*;
-;
 
 
 public class Mappers {
@@ -104,10 +103,8 @@ public class Mappers {
     }
 
 
-
     // TODO: 28/05/2023 Não sei se as implementações da classe em baixo estão corretas!
     protected class EstatisticasJogadoresMapper implements IEstatisticasJogadoresMapper {
-
 
         @Override
         public Integer Create(estatisticas_jogadores entity) {
