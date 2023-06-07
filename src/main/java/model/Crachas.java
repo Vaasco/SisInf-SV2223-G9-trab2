@@ -1,12 +1,15 @@
 package model;
 
 import jakarta.persistence.*;
+import org.eclipse.persistence.annotations.OptimisticLocking;
+import org.eclipse.persistence.annotations.OptimisticLockingType;
 
 
 import java.util.List;
 
 @Entity
 @Table(name = "crachas")
+@OptimisticLocking(type = OptimisticLockingType.CHANGED_COLUMNS)
 public class Crachas {
 
     @EmbeddedId
@@ -15,6 +18,8 @@ public class Crachas {
     @Column(name = "url")
     private String url;
 
+
+    @Version
     @Column(name = "limite_pontos")
     private Integer limitePontos;
 

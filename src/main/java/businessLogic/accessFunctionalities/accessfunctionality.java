@@ -3,9 +3,7 @@ package businessLogic.accessFunctionalities;
 import businessLogic.DataScopes.DataScope;
 import data_access.Mappers;
 import data_access.UnitOfWork;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
-import jakarta.persistence.TypedQuery;
+import jakarta.persistence.*;
 import model.*;
 
 import java.sql.CallableStatement;
@@ -243,10 +241,54 @@ public class accessfunctionality {
             System.out.println(resultado);
             Integer novosPontos = (int) (resultado.getLimitePontos() * 1.2);
             resultado.setLimitePontos(novosPontos);
+            try{
+                ds.validateWork();
+            }catch (OptimisticLockException ex){
+                System.err.println("Conflito detetado. A atualização nao pode ser concluída.");
+                return;
+            }
             System.out.println(resultado);
-            ds.validateWork();
         }
     }
+
+    public static void pessimistCrachaUpdate(String nomeCracha, String idGame) throws Exception {
+        DataScope ds = new DataScope();
+        EntityManager em = ds.getEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        try{
+            tx.begin();
+
+            if (nomeCracha.length() > 10) throw new IllegalArgumentException("Invalid nome cracha!");
+            if (idGame.length() > 10) throw new IllegalArgumentException("Invalid id do game");
+            String sql = "Select c from Crachas c where c.id.nomeCracha = ?1 and c.id.idGame = ?2";
+            TypedQuery<Crachas> query = em.createQuery(sql, Crachas.class);
+            query.setParameter(1, nomeCracha);
+            query.setParameter(2, idGame);
+            Crachas resultado = query.getSingleResult();
+            System.out.println(resultado);
+            Integer novosPontos = (int) (resultado.getLimitePontos() * 1.2);
+            resultado.setLimitePontos(novosPontos);
+
+            em.lock(resultado, LockModeType.PESSIMISTIC_WRITE);
+
+            ds.validateWork();
+
+            tx.commit();
+
+            System.out.println(resultado);
+
+        }catch (OptimisticLockException ex){
+            System.err.println("Conflito detetado. A atualização nao pode ser concluída.");
+
+            if (tx.isActive()){
+                tx.rollback();
+            }
+        } finally {
+            ds.close();
+        }
+    }
+
+
 
 
     public static void main(String[] args) throws Exception {
@@ -257,4 +299,36 @@ public class accessfunctionality {
         //System.out.println(jogador_total_info());
         associar_cracha_np(idJogador, idGame, cracha);
     }
+
+   /* public static void main(String[] args) throws Exception {
+        // Executa duas threads simultaneamente
+        String idGame = "0123456789";
+        String cracha = "Test Drive";
+
+        Thread thread1 = new Thread(() -> {
+            try {
+                optimistCrachaUpdate(cracha,idGame);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        Thread thread2 = new Thread(() -> {
+            try {
+                optimistCrachaUpdate(cracha,idGame);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        // Inicia as threads
+        thread1.start();
+        thread2.start();
+
+        // Aguarda o término das threads
+        thread1.join();
+        thread2.join();
+    }*/
+
+    // Restante do código...
 }
