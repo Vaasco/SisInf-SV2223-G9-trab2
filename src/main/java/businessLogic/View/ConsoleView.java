@@ -5,11 +5,10 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
-import businessLogic.View.*;
+
 
 public class ConsoleView implements View {
     private static final String APP_TITLE = "On Track Management";
-
 
     public void clear() {
         for (int y = 0; y < 25; y++) //console is 80 columns and 25 lines
@@ -38,11 +37,12 @@ public class ConsoleView implements View {
     public final Integer getInputInt() throws RuntimeException {
         //try to get input as int , but if a '\n' is found, return null
         try {
-            Scanner scanner= new Scanner(System.in);
+            Scanner scanner = new Scanner(System.in);
             String input = scanner.nextLine();
 
-            if(input ==null || input.isEmpty())
+            if (input == null || input.isEmpty())
                 return null;
+
             return Integer.parseInt(input);
         } catch (NoSuchElementException e) { //input equals '\n'
             println("Invalid input.");
@@ -56,11 +56,12 @@ public class ConsoleView implements View {
     @Override
     public final Double getInputDouble() throws RuntimeException {
         try {
-            Scanner scanner= new Scanner(System.in);
+            Scanner scanner = new Scanner(System.in);
             String input = scanner.nextLine();
 
-            if(input ==null || input.isEmpty())
+            if (input == null || input.isEmpty())
                 return null;
+
             return Double.parseDouble(input);
         } catch (NoSuchElementException e) { //input equals '\n'
             println("Invalid input.");
@@ -71,13 +72,13 @@ public class ConsoleView implements View {
         }
     }
 
-    //@Override
+    @Override
     public final BigDecimal getInputBigDecimal() throws RuntimeException {
         try {
-            Scanner scanner= new Scanner(System.in);
+            Scanner scanner = new Scanner(System.in);
             String input = scanner.nextLine();
 
-            if(input ==null || input.isEmpty())
+            if (input == null || input.isEmpty())
                 return null;
             return BigDecimal.valueOf(Double.parseDouble(input));
         } catch (NoSuchElementException e) { //input equals '\n'
@@ -94,7 +95,7 @@ public class ConsoleView implements View {
         try {
             Scanner scanner = new Scanner(System.in);
             String input = scanner.nextLine();
-            if(input ==null || input.isEmpty())
+            if (input == null || input.isEmpty())
                 return null;
 
             return input;
@@ -113,29 +114,27 @@ public class ConsoleView implements View {
     }
 
     @Override
-    public final String getInputString(String message)  {
+    public final String getInputString(String message) {
         print(message);
         return getInputString();
     }
 
     @Override
-    public final Double getInputDouble(String message) throws RuntimeException{
+    public final Double getInputDouble(String message) throws RuntimeException {
         print(message);
         return getInputDouble();
     }
 
     @Override
-    public final BigDecimal getInputBigDecimal(String message) throws RuntimeException{
+    public final BigDecimal getInputBigDecimal(String message) throws RuntimeException {
         print(message);
         return getInputBigDecimal();
     }
-
 
     @Override
     public void showMessage(String message) {
         println(message);
     }
-
 
     public final void displayError(String s) {
         println(s);

@@ -6,6 +6,7 @@ import jakarta.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
+
 @Embeddable
 public class CrachasId implements Serializable {
 
@@ -16,10 +17,10 @@ public class CrachasId implements Serializable {
         this.nomeCracha = nomeCracha;
     }
 
-    @Column(name = "id_game", nullable = false )
+    @Column(name = "id_game", nullable = false)
     private String idGame;
 
-    @Column(name = "nome_cracha" , nullable = false)
+    @Column(name = "nome_cracha", nullable = false)
     private String nomeCracha;
 
     public CrachasId() {

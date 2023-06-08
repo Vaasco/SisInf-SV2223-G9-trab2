@@ -4,7 +4,6 @@ package model;
 import jakarta.persistence.*;
 
 
-
 @Entity
 @Table(name = "estatisticas_jogo")
 public class estatisticas_jogo {
@@ -31,40 +30,34 @@ public class estatisticas_jogo {
         return idGame;
     }
 
-
     public void setIdGame(Character idGame) {
         this.idGame = idGame;
     }
-
 
     public Integer getNmrPartidasGame() {
         return nmrPartidasGame;
     }
 
-
     public void setNmrPartidasGame(Integer nmrPartidasGame) {
         this.nmrPartidasGame = nmrPartidasGame;
     }
-
 
     public Integer getNmrPlayers() {
         return nmrPlayers;
     }
 
-
     public void setNmrPlayers(Integer nmrPlayers) {
         this.nmrPlayers = nmrPlayers;
     }
-
 
     public Integer getTotalPontosGame() {
         return totalPontosGame;
     }
 
-
     public void setTotalPontosGame(Integer totalPontosGame) {
         this.totalPontosGame = totalPontosGame;
     }
+
     @Override
     public String toString() {
         return "EstatisticasJogo[" +

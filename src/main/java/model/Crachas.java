@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import org.eclipse.persistence.annotations.OptimisticLocking;
 import org.eclipse.persistence.annotations.OptimisticLockingType;
 
-
 import java.util.List;
+
 
 @Entity
 @Table(name = "crachas")
@@ -68,6 +68,4 @@ public class Crachas {
                 " ,limite_pontos=" + getLimitePontos() +
                 "]";
     }
-
-
 }

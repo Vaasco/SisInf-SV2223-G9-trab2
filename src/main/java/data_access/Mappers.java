@@ -351,7 +351,7 @@ public class Mappers {
         public Crachas read(String idGame, String nomeCracha) throws Exception {
             try (DataScope ds = new DataScope()) {
                 EntityManager em = ds.getEntityManager();
-                Crachas cracha = em.find(Crachas.class, new CrachasId(idGame, nomeCracha),LockModeType.PESSIMISTIC_READ);
+                Crachas cracha = em.find(Crachas.class, new CrachasId(idGame, nomeCracha), LockModeType.PESSIMISTIC_READ);
                 ds.validateWork();
                 return cracha;
             }
@@ -413,9 +413,5 @@ public class Mappers {
         public Normald Delete(Normal entity) {
             return null;
         }
-
-
     }
-
 }
-

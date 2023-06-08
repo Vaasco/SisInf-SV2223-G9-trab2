@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 @Embeddable
 public class JogaMjId implements Serializable {
+
     private static final long serialVersionUID = 8481544358552495899L;
     @Column(name = "nmr_seq_partida", nullable = false)
     private Integer nmrSeqPartida;

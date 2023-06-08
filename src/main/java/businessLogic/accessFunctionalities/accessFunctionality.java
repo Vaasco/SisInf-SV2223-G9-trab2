@@ -1,12 +1,9 @@
 package businessLogic.accessFunctionalities;
 
 import businessLogic.DataScopes.DataScope;
-import data_access.Mappers;
-import data_access.UnitOfWork;
 import jakarta.persistence.*;
 import model.Crachas;
 import model.CrachasId;
-import model.Jogadores;
 import org.postgresql.util.PGobject;
 
 import java.sql.CallableStatement;
@@ -14,7 +11,6 @@ import java.sql.Connection;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
 
 
 public class accessFunctionality {
@@ -64,7 +60,7 @@ public class accessFunctionality {
     }
 
     //Alínea 2e
-    public static Integer total_pontos_jogador(Integer id_player) throws Exception {
+    public static Integer total_pontos_jogador(Integer id_player) {
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
             Query query = em.createNativeQuery("SELECT totalpontosjogador(?)");
@@ -82,7 +78,7 @@ public class accessFunctionality {
     }
 
     //Alínea 2f
-    public static Integer total_jogos_jogador(Integer id_player) throws Exception {
+    public static Integer total_jogos_jogador(Integer id_player) {
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
             Query query = em.createNativeQuery("SELECT totaljogosjogador(?)");
@@ -99,8 +95,7 @@ public class accessFunctionality {
         }
     }
 
-
-    public static List<PGobject> pontos_jogo_por_jogador(String id_game) throws Exception {
+    public static List<PGobject> pontos_jogo_por_jogador(String id_game) {
         //List<Object[]> resultTable = new ArrayList<>();
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
@@ -109,21 +104,19 @@ public class accessFunctionality {
             query.setParameter(1, id_game);
             List<PGobject> resultList = query.getResultList();
             ds.validateWork();
-            for(PGobject row:resultList){
+            for (PGobject row : resultList) {
                 String value = row.getValue();
-                String[] columns = value.substring(1,value.length()-1).split(",");
+                String[] columns =
+                        value != null ? value.substring(1, value.length() - 1).split(",") : new String[0];
                 int playerId = Integer.parseInt(columns[0].trim());
                 int totalPoints = Integer.parseInt(columns[1].trim());
                 System.out.printf("%s , %s", playerId, totalPoints);
             }
             return resultList;
-
-
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }
-
     }
 
     //Alínea 2h
@@ -144,18 +137,17 @@ public class accessFunctionality {
 
     //Alínea 2i
     public static Integer iniciar_conversa(Integer id_jogador, String nome_chat) throws Exception {
-        Integer ret;
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
-
             Connection cn = em.unwrap(Connection.class);
+
+            int ret;
             try (CallableStatement f = cn.prepareCall("CALL iniciarconversa(?,?,?)")) {
                 f.registerOutParameter(3, Types.INTEGER);
                 f.setInt(1, id_jogador);
                 f.setString(2, nome_chat);
                 f.execute();
                 ret = f.getInt(3);
-
             }
             ds.validateWork();
             return ret;
@@ -174,11 +166,10 @@ public class accessFunctionality {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
     }
 
     //Alínea 2k
-    public static void enviar_mensagem(Integer id_jogador, Integer id_conv, String msg) throws Exception {
+    public static void enviar_mensagem(Integer id_jogador, Integer id_conv, String msg) {
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
             String SQLQuery = "CALL enviarmensagem(?,?,?)";
@@ -195,7 +186,7 @@ public class accessFunctionality {
     }
 
     //Alínea 2l
-    public static List<Object[]> jogador_total_info() throws Exception {
+    public static List<Object[]> jogador_total_info() {
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
             List<Object[]> resultTable = new ArrayList<>();
@@ -203,7 +194,7 @@ public class accessFunctionality {
             Query q = em.createNativeQuery(SQLQuery);
             resultTable.addAll(q.getResultList());
             System.out.println();
-            for ( Object[] row : resultTable ){
+            for (Object[] row : resultTable) {
                 int playerId = (int) row[0];
                 String estado = (String) row[1];
                 String email = (String) row[2];
@@ -211,16 +202,19 @@ public class accessFunctionality {
                 int totaljogos = (int) row[4];
                 long totalpartidas = (long) row[5];
                 int totalpontos = (int) row[6];
-
-                System.out.printf("[PlayerID: %4s, Estado: %5s, Email: %5s, Username: %5s, TotalJogos: %2s, TotalPartidas: %2s, TotalPontos: %1s]\n", playerId, estado, email, username, totaljogos,totalpartidas,totalpontos);
+                System.out.printf("[PlayerID: %4s, Estado: %5s, Email: %5s, Username: %5s, TotalJogos: %2s, TotalPartidas: %2s, TotalPontos: %1s]\n", playerId, estado, email, username, totaljogos, totalpartidas, totalpontos);
             }
             System.out.println();
             ds.validateWork();
             return q.getResultList();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw e;
         }
     }
 
-    // 1b) 2h (sem aceder a procedimentos e functions)
+
+    // 1b) 2h (sem usar qualquer PA nem qualquer função pgSql)
     public static void associar_cracha_np(Integer id_jogador, String id_game, String cracha_nome) {
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
@@ -270,33 +264,32 @@ public class accessFunctionality {
     }
 
 
-    public static void associar_cracha_with_procedures(String idGame, String nomeCracha) throws Exception{
-        try (DataScope ds = new DataScope()){
+    // 1c) 2h (reutilizando os PA e funções que a funcionalidade pgSql original usa)
+    public static void associar_cracha_with_procedures(String idGame, String nomeCracha) {
+        try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
             List<Object[]> resultTable = new ArrayList<>();
             String SQLQuery = "select * from pontosjogoporjogador(?);";
             Query q = em.createNativeQuery(SQLQuery);
-            q.setParameter(1,idGame);
+            q.setParameter(1, idGame);
             resultTable.addAll(q.getResultList());
-            for (Object[] row : resultTable){
-                int idPlayer =(int) row[0];
-                associar_cracha(idPlayer,idGame,nomeCracha);
+            for (Object[] row : resultTable) {
+                int idPlayer = (int) row[0];
+                associar_cracha(idPlayer, idGame, nomeCracha);
             }
         }
     }
 
 
     //Alínea 2a)
-    public static void optimistCrachaUpdate(String nomeCracha, String idGame) throws Exception {
+    public static void optimistCrachaUpdate(String nomeCracha, String idGame) {
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
             //Verificação de parâmetros
             if (nomeCracha.length() > 10) throw new IllegalArgumentException("Invalid nome cracha!");
             if (idGame.length() > 10) throw new IllegalArgumentException("Invalid id do game");
 
-
             Crachas resultado = em.find(Crachas.class, new CrachasId(idGame, nomeCracha));
-
             System.out.println(resultado);
 
             Integer novosPontos = (int) (resultado.getLimitePontos() * 1.2);
@@ -310,15 +303,17 @@ public class accessFunctionality {
             System.out.println(resultado);
         }
     }
+
+
     //Alínea 2b)
-    public static void test2a() throws Exception{
+    public static void test2a() throws Exception {
         // Executa duas threads simultaneamente
         String idGame = "0123456789";
         String cracha = "Test Drive";
 
         Thread thread1 = new Thread(() -> {
             try {
-                optimistCrachaUpdate(cracha,idGame);
+                optimistCrachaUpdate(cracha, idGame);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -326,7 +321,7 @@ public class accessFunctionality {
 
         Thread thread2 = new Thread(() -> {
             try {
-                optimistCrachaUpdate(cracha,idGame);
+                optimistCrachaUpdate(cracha, idGame);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -340,25 +335,23 @@ public class accessFunctionality {
         thread1.join();
         thread2.join();
     }
-    //Alínea 2c)
-    public static void pessimistCrachaUpdate(String nomeCracha, String idGame) throws Exception {
-        try(DataScope ds = new DataScope()){
-            EntityManager em = ds.getEntityManager();
 
+    //Alínea 2c)
+    public static void pessimistCrachaUpdate(String nomeCracha, String idGame) {
+        try (DataScope ds = new DataScope()) {
+            EntityManager em = ds.getEntityManager();
 
             if (nomeCracha.length() > 10) throw new IllegalArgumentException("Invalid nome cracha!");
             if (idGame.length() > 10) throw new IllegalArgumentException("Invalid id do game");
 
             Crachas resultado = em.find(Crachas.class, new CrachasId(idGame, nomeCracha), LockModeType.PESSIMISTIC_WRITE);
 
-
             Integer novosPontos = (int) (resultado.getLimitePontos() * 1.2);
             resultado.setLimitePontos(novosPontos);
 
-
-            try{
+            try {
                 ds.validateWork();
-            }catch (PessimisticLockException ex) {
+            } catch (PessimisticLockException ex) {
                 System.err.println("Conflito detetado. A atualização nao pode ser concluída.");
             } finally {
                 ds.close();
@@ -367,7 +360,8 @@ public class accessFunctionality {
         }
     }
 
-   public static void main(String[] args) throws Exception{
-      jogador_total_info();
+
+    public static void main(String[] args) {
+        jogador_total_info();
     }
 }

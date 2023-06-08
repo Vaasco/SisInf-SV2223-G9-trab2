@@ -20,6 +20,7 @@ public class Tem {
             @JoinColumn(name = "id_game", referencedColumnName = "id_game", insertable = false, updatable = false),
             @JoinColumn(name = "nome_cracha", referencedColumnName = "nome_cracha", insertable = false, updatable = false)
     })
+
     private Crachas crachas;
 
     public TemId getId() {

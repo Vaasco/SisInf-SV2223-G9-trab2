@@ -2,10 +2,8 @@ package model;
 
 import jakarta.persistence.*;
 
-
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.time.LocalTime;
+
 
 @Entity
 @Table
@@ -35,46 +33,37 @@ public class Mensagens {
         return remetente;
     }
 
-
     public void setRegiaoRemetente(String regiaoRemetente) {
         this.regiaoRemetente = regiaoRemetente;
     }
-
 
     public void setRemetente(Integer remetente) {
         this.remetente = remetente;
     }
 
-
     public String getRegiaoRemetente() {
         return regiaoRemetente;
     }
-
 
     public LocalTime getDataHoraMsg() {
         return dataHoraMsg;
     }
 
-
     public void setId(MensagensId id) {
         this.id = id;
     }
-
 
     public void setDataHoraMsg(LocalTime dataHoraMsg) {
         this.dataHoraMsg = dataHoraMsg;
     }
 
-
     public MensagensId getId() {
         return id;
     }
 
-
     public String getTexto() {
         return texto;
     }
-
 
     public void setTexto(String texto) {
         this.texto = texto;

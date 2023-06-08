@@ -2,13 +2,13 @@ package model;
 
 import jakarta.persistence.*;
 
-import javax.xml.namespace.QName;
 import java.util.List;
 
 
 @Entity
 @Table(name = "regiao")
 public class Regiao {
+
     @Id
     @Column(name = "nome_regiao")
     private String nomeRegiao;

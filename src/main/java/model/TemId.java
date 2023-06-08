@@ -6,8 +6,10 @@ import jakarta.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
+
 @Embeddable
 public class TemId implements Serializable {
+
     private static final long serialVersionUID = -6074917418152923373L;
     @Column(name = "id_player", nullable = false)
     private Integer idPlayer;

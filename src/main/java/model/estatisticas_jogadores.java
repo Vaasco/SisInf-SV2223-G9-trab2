@@ -5,9 +5,8 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "estatisticas_jogadores")
-
-
 public class estatisticas_jogadores {
+
     @Id
     private Integer id_player;
 

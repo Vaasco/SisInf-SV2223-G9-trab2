@@ -8,14 +8,15 @@ import java.util.Objects;
 
 @Embeddable
 public class ParticiparId implements Serializable {
+
     private static final long serialVersionUID = 5838661715150276220L;
-    @Column(name = "id_player",nullable = false)
+    @Column(name = "id_player", nullable = false)
     private Integer idPlayer;
 
-    @Column(name = "nome_regiao",nullable = false)
+    @Column(name = "nome_regiao", nullable = false)
     private String nomeRegiao;
 
-    @Column( name = "id_conversa",nullable = false)
+    @Column(name = "id_conversa", nullable = false)
     private Integer idConversa;
 
     public Integer getIdPlayer() {
@@ -43,7 +44,7 @@ public class ParticiparId implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o){
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ParticiparId entity = (ParticiparId) o;
@@ -54,6 +55,6 @@ public class ParticiparId implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(nomeRegiao, idConversa , idPlayer);
+        return Objects.hash(nomeRegiao, idConversa, idPlayer);
     }
 }

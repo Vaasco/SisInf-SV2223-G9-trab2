@@ -18,7 +18,6 @@ public class Normald implements Serializable {
         this.nomeRegiao = nomeRegiao;
     }
 
-
     @Column(name = "nome_regiao", nullable = false)
     private String nomeRegiao;
 

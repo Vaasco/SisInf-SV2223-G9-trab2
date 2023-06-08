@@ -41,11 +41,9 @@ public class Comprar {
         return dataCompra;
     }
 
-
     public void setDataCompra(LocalDate dataCompra) {
         this.dataCompra = dataCompra;
     }
-
 
     public Float getPreco() {
         return preco;

@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "joga_mj")
 public class JogaMj {
+
     @EmbeddedId
     private JogaMjId id;
 

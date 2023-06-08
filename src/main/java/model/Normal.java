@@ -94,7 +94,6 @@ public class Normal {
     @JoinColumn(name = "id_game", insertable = false, updatable = false)
     private Jogos jogoNormal;
 
-
     @Override
     public String toString() {
         return "Normal[" +

@@ -6,6 +6,7 @@ import jakarta.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
+
 @Embeddable
 public class ComprarId implements Serializable {
 
@@ -30,7 +31,6 @@ public class ComprarId implements Serializable {
     public void setIdGame(Character idGame) {
         this.idGame = idGame;
     }
-
 
     public void setIdPlayer(Integer idPlayer) {
         this.idPlayer = idPlayer;

@@ -10,6 +10,7 @@ import java.util.Objects;
 public class MensagensId implements Serializable {
 
     private static final long serialVersionUID = -886816776553356393L;
+
     @Column(name = "id_conversa", nullable = false)
     private Integer idConversa;
 

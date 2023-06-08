@@ -35,7 +35,6 @@ public class Jogos {
     @OneToMany(mappedBy = "jogoMultijogador", cascade = CascadeType.PERSIST)
     private List<Multijogador> multijogador;
 
-    
 
     public String getIdGame() {
         return idGame;

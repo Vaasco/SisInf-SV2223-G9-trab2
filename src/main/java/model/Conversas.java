@@ -4,9 +4,11 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
+
 @Entity
 @Table(name = "Conversas")
 public class Conversas {
+
     @Id
     @Column(name = "id_conversa")
     private Integer idConversa;
@@ -29,7 +31,6 @@ public class Conversas {
         this.idConversa = idConversa;
     }
 
-
     public String getNomeConversa() {
         return nomeConversa;
     }
@@ -37,6 +38,7 @@ public class Conversas {
     public void setNomeConversa(String nomeConversa) {
         this.nomeConversa = nomeConversa;
     }
+
     @Override
     public String toString() {
         return "Conversas[" +
