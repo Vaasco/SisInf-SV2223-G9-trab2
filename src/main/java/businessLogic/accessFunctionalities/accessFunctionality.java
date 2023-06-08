@@ -1,17 +1,23 @@
 package businessLogic.accessFunctionalities;
 
 import businessLogic.DataScopes.DataScope;
+import data_access.Mappers;
+import data_access.UnitOfWork;
 import jakarta.persistence.*;
 import model.Crachas;
+import model.CrachasId;
+import org.eclipse.persistence.exceptions.i18n.ExceptionMessageGenerator;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
 
 
 public class accessFunctionality {
+
     //Alínea 2d
     //2d -- criar jogador
     public static void criar_jogador(String email, String username, String nome_regiao) {
@@ -136,7 +142,7 @@ public class accessFunctionality {
     //Alínea 2i
     public static Integer iniciar_conversa(Integer id_jogador, String nome_chat) throws Exception {
         Integer ret;
-        try (DataScope ds = new DataScope()) {
+        try (DataScope ds = new  DataScope()) {
             EntityManager em = ds.getEntityManager();
 
             Connection cn = em.unwrap(Connection.class);
@@ -246,40 +252,6 @@ public class accessFunctionality {
         }
     }
 
-    /**
-     * 1c) 2h (reutilizando os procedimentos armazenados e funções que a funcionalidade original usa)
-     * <p>
-     * A funcionalidade original não utiliza procedimentos armazenados, logo torna-se impossível
-     * realizar esta alínea, pois não iríamos reutilizar nada.
-     */
-
-    //Alínea 2a)
-    public static void optimistCrachaUpdate(String nomeCracha, String idGame) throws Exception {
-        try (DataScope ds = new DataScope()) {
-            EntityManager em = ds.getEntityManager();
-            //Verificação de parâmetros
-            if (nomeCracha.length() > 10) throw new IllegalArgumentException("Invalid nome cracha!");
-            if (idGame.length() > 10) throw new IllegalArgumentException("Invalid id do game");
-
-            String sql = "Select c from Crachas c where c.id.nomeCracha = ?1 and c.id.idGame = ?2";
-            TypedQuery<Crachas> query = em.createQuery(sql, Crachas.class);
-            query.setParameter(1, nomeCracha);
-            query.setParameter(2, idGame);
-            Crachas resultado = query.getSingleResult();
-            System.out.println(resultado);
-
-            Integer novosPontos = (int) (resultado.getLimitePontos() * 1.2);
-            resultado.setLimitePontos(novosPontos);
-            try {
-                ds.validateWork();
-            } catch (OptimisticLockException ex) {
-                System.err.println("Conflito detetado. A atualização nao pode ser concluída.");
-                return;
-            }
-            System.out.println(resultado);
-        }
-    }
-
     public static void pessimistCrachaUpdate(String nomeCracha, String idGame) throws Exception {
         DataScope ds = new DataScope();
         EntityManager em = ds.getEntityManager();
@@ -290,12 +262,8 @@ public class accessFunctionality {
             if (nomeCracha.length() > 10) throw new IllegalArgumentException("Invalid nome cracha!");
             if (idGame.length() > 10) throw new IllegalArgumentException("Invalid id do game");
 
-            String sql = "Select c from Crachas c where c.id.nomeCracha = ?1 and c.id.idGame = ?2";
-            TypedQuery<Crachas> query = em.createQuery(sql, Crachas.class);
-            query.setParameter(1, nomeCracha);
-            query.setParameter(2, idGame);
-            Crachas resultado = query.getSingleResult();
-            System.out.println(resultado);
+            Crachas resultado = em.find(Crachas.class, new CrachasId(idGame, nomeCracha), LockModeType.PESSIMISTIC_READ);
+
 
             Integer novosPontos = (int) (resultado.getLimitePontos() * 1.2);
             resultado.setLimitePontos(novosPontos);
@@ -314,16 +282,40 @@ public class accessFunctionality {
         }
     }
 
+    /**
+     * 1c) 2h (reutilizando os procedimentos armazenados e funções que a funcionalidade original usa)
+     * <p>
+     * A funcionalidade original não utiliza procedimentos armazenados, logo torna-se impossível
+     * realizar esta alínea, pois não iríamos reutilizar nada.
+     */
 
-    public static void main(String[] args) throws Exception {
-        Integer idJogador = 1000;
-        String idGame = "0123456789";
-        String cracha = "Test Drive";
-        //System.out.println(jogador_total_info());
-        associar_cracha_np(idJogador, idGame, cracha);
+    //Alínea 2a)
+    public static void optimistCrachaUpdate(String nomeCracha, String idGame) throws Exception {
+        try (DataScope ds = new DataScope()) {
+            EntityManager em = ds.getEntityManager();
+            //Verificação de parâmetros
+            if (nomeCracha.length() > 10) throw new IllegalArgumentException("Invalid nome cracha!");
+            if (idGame.length() > 10) throw new IllegalArgumentException("Invalid id do game");
+
+
+            Crachas resultado = em.find(Crachas.class, new CrachasId(idGame, nomeCracha));
+
+            System.out.println(resultado);
+
+            Integer novosPontos = (int) (resultado.getLimitePontos() * 1.2);
+            resultado.setLimitePontos(novosPontos);
+            try {
+                ds.validateWork();
+            } catch (OptimisticLockException ex) {
+                System.err.println("Conflito detetado. A atualização não pode ser concluída.");
+                return;
+            }
+            System.out.println(resultado);
+        }
     }
 
-   /*
+
+
    public static void main(String[] args) throws Exception {
         // Executa duas threads simultaneamente
         String idGame = "0123456789";
@@ -353,7 +345,7 @@ public class accessFunctionality {
         thread1.join();
         thread2.join();
     }
-    */
+
 
     // Restante do código...
 }

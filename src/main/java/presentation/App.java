@@ -35,23 +35,22 @@ public class App {
         System.out.println(++i + ". Add Player To A Conversation");
         System.out.println(++i + ". Send A Message");
         System.out.println(++i + ". Players Info");
+        System.out.println(++i + ". Pessimistic Control Of Badge Points Increment By 20%");
+        System.out.println(++i + ". Optimistic Control Of Badge Points Increment By 20%");
     }
 
     public void runApp() {
-        try{
+        try {
             displayMenu();
             Scanner scanner = new Scanner(System.in);
             System.out.println("Enter a command number: ");
             String command = scanner.nextLine();
             new commands().getCommands().get(command).execute();
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 
 
     }
 
-    public static void main(String[] args) throws Exception {
-        new App().runApp();
-    }
 }

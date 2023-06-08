@@ -12,7 +12,7 @@ public class commands {
 
     public Map<String, Action> getCommands() {
         return Map.ofEntries(
-                Map.entry("0",new Exit()),
+                Map.entry("0", new Exit()),
                 Map.entry("1", new CriarJogador()),
                 Map.entry("2", new DesativarJogador()),
                 Map.entry("3", new BanirJogador()),
@@ -23,7 +23,9 @@ public class commands {
                 Map.entry("8", new IniciarConversa()),
                 Map.entry("9", new JuntarConversa()),
                 Map.entry("10", new EnviarMensagem()),
-                Map.entry("11", new JogadorTotalInfo())
+                Map.entry("11", new JogadorTotalInfo()),
+                Map.entry("12", new pessimistCrachaUpdate()),
+                Map.entry("13", new optimisticCrachaUpdate())
         );
 
     }
@@ -186,6 +188,34 @@ public class commands {
             try {
                 accessFunctionality.jogador_total_info();
             } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public class pessimistCrachaUpdate implements Action {
+        @Override
+        public void execute()  {
+            String nomeCracha,idGame;
+            try {
+                nomeCracha = view.getInputString("Nome cracha: ");
+                idGame = view.getInputString("Id Game: ");
+                accessFunctionality.pessimistCrachaUpdate(nomeCracha,idGame);
+            }catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public class optimisticCrachaUpdate implements Action{
+        @Override
+        public void execute(){
+            String nomeCracha,idGame;
+            try{
+                nomeCracha = view.getInputString("Nome cracha: ");
+                idGame = view.getInputString("Id Game: ");
+                accessFunctionality.optimistCrachaUpdate(nomeCracha,idGame);
+            }catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         }

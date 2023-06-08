@@ -300,7 +300,7 @@ public class Mappers {
         @Override
         public Integer Update(Jogadores entity) {
             unitOfWork.beginTransaction();
-            Jogadores cr = unitOfWork._em.find(Jogadores.class, entity.getIdPlayer(), LockModeType.PESSIMISTIC_WRITE);
+            Jogadores cr = unitOfWork._em.find(Jogadores.class, entity.getIdPlayer(), LockModeType.PESSIMISTIC_READ);
             if (cr == null) {
                 System.out.println("Mensagem not found.");
                 return null;
@@ -328,7 +328,7 @@ public class Mappers {
         }
     }
 
-    public class CrachaMapper implements ICrachaMapper {
+    public static class CrachaMapper implements ICrachaMapper {
 
         @Override
         public String Create(Crachas entity) throws Exception {
@@ -351,7 +351,7 @@ public class Mappers {
         public Crachas read(String idGame, String nomeCracha) throws Exception {
             try (DataScope ds = new DataScope()) {
                 EntityManager em = ds.getEntityManager();
-                Crachas cracha = em.find(Crachas.class, new CrachasId(idGame, nomeCracha));
+                Crachas cracha = em.find(Crachas.class, new CrachasId(idGame, nomeCracha),LockModeType.PESSIMISTIC_READ);
                 ds.validateWork();
                 return cracha;
             }
