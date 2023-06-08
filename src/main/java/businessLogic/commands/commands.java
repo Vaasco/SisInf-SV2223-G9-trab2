@@ -5,7 +5,6 @@ import businessLogic.View.View;
 import businessLogic.accessFunctionalities.*;
 
 import java.util.Map;
-import java.util.Scanner;
 
 public class commands {
 
@@ -46,7 +45,7 @@ public class commands {
                 email = view.getInputString("Email: ");
                 username = view.getInputString("Username: ");
                 nome_regiao = view.getInputString("Região: ");
-                accessfunctionality.criar_jogador(email, username, nome_regiao);
+                accessFunctionality.criar_jogador(email, username, nome_regiao);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -59,7 +58,7 @@ public class commands {
             Integer id;
             try {
                 id = view.getInputInt("Id: ");
-                accessfunctionality.desativar_jogador(id);
+                accessFunctionality.desativar_jogador(id);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -72,7 +71,7 @@ public class commands {
             Integer id;
             try {
                 id = view.getInputInt("Id: ");
-                accessfunctionality.banir_jogador(id);
+                accessFunctionality.banir_jogador(id);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -85,7 +84,7 @@ public class commands {
             Integer id;
             try {
                 id = view.getInputInt("Id: ");
-                accessfunctionality.total_pontos_jogador(id);
+                accessFunctionality.total_pontos_jogador(id);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -98,7 +97,7 @@ public class commands {
             Integer id;
             try {
                 id = view.getInputInt("Id: ");
-                accessfunctionality.total_jogos_jogador(id);
+                accessFunctionality.total_jogos_jogador(id);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -111,7 +110,7 @@ public class commands {
             String id_game;
             try {
                 id_game = view.getInputString("Id_game: ");
-                accessfunctionality.pontos_jogo_por_jogador(id_game);
+                accessFunctionality.pontos_jogo_por_jogador(id_game);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -128,7 +127,7 @@ public class commands {
                 id_jogador = view.getInputInt("Id Jogador: ");
                 id_game = view.getInputString("Id Game: ");
                 nome_cracha = view.getInputString("Nome Cracha: ");
-                accessfunctionality.associar_cracha(id_jogador, id_game, nome_cracha);
+                accessFunctionality.associar_cracha(id_jogador, id_game, nome_cracha);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -143,7 +142,7 @@ public class commands {
             try {
                 id_jogador = view.getInputInt("Id Jogador: ");
                 nome_chat = view.getInputString("Nome chat: ");
-                accessfunctionality.iniciar_conversa(id_jogador, nome_chat);
+                accessFunctionality.iniciar_conversa(id_jogador, nome_chat);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -158,7 +157,7 @@ public class commands {
             try {
                 id_player = view.getInputInt("Id Jogador: ");
                 id_conv = view.getInputInt("Id Conversar: ");
-                accessfunctionality.juntar_conversa(id_player, id_conv);
+                accessFunctionality.juntar_conversa(id_player, id_conv);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -174,7 +173,7 @@ public class commands {
                 id_jogador = view.getInputInt("Id Jogador: ");
                 id_conv = view.getInputInt("Id Conversa: ");
                 msg = view.getInputString("Mensagem: ");
-                accessfunctionality.enviar_mensagem(id_jogador, id_conv, msg);
+                accessFunctionality.enviar_mensagem(id_jogador, id_conv, msg);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -185,7 +184,7 @@ public class commands {
         @Override
         public void execute() {
             try {
-                accessfunctionality.jogador_total_info();
+                accessFunctionality.jogador_total_info();
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }

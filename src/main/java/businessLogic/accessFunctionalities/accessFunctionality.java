@@ -1,10 +1,8 @@
 package businessLogic.accessFunctionalities;
 
 import businessLogic.DataScopes.DataScope;
-import data_access.Mappers;
-import data_access.UnitOfWork;
 import jakarta.persistence.*;
-import model.*;
+import model.Crachas;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -12,7 +10,8 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-public class accessfunctionality {
+
+public class accessFunctionality {
     //Alínea 2d
     //2d -- criar jogador
     public static void criar_jogador(String email, String username, String nome_regiao) {
@@ -202,20 +201,48 @@ public class accessfunctionality {
     public static void associar_cracha_np(Integer id_jogador, String id_game, String cracha_nome) throws Exception {
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
-            Integer totalPontos;
-            UnitOfWork unitOfWork = new UnitOfWork();
-            Mappers mappers = new Mappers(unitOfWork);
-            //Verificar os parâmetros
-            if (id_jogador.toString().length() < 4) throw new IllegalArgumentException("Invalid Id jogador!");
-            if (id_game.length() != 10) throw new IllegalArgumentException("Invalid Id jogo!");
-            if (cracha_nome.length() > 40) throw new IllegalArgumentException("Invalid nome cracha!");
-            String sql = "Select distinct n.idPlayer FROM Normal n WHERE n.idPlayer = ?1 AND n.jogoNormal.idGame = ?2";
-            TypedQuery<Normal> query = em.createQuery(sql, Normal.class);
-            query.setParameter(1, id_jogador);
-            query.setParameter(2, id_game);
-            List<Normal> resultList = query.getResultList();
-            System.out.println("\n\n" + resultList + "\n\n");
+
+            TypedQuery<Integer> query1 = em.createQuery(
+                    "SELECT CAST(SUM(n.pontuacaoN) AS INTEGER) " +
+                            "FROM Normal n " +
+                            "WHERE n.idPlayer = ?1 AND n.id.idGame = ?2", Integer.class);
+            query1.setParameter(1, id_jogador);
+            query1.setParameter(2, id_game);
+            Integer pontuacaoN = query1.getSingleResult();
+
+            TypedQuery<Integer> query2 = em.createQuery(
+                    "SELECT CAST(SUM(mj.pontuacaoMj) AS INTEGER) " +
+                            "FROM JogaMj mj " +
+                            "WHERE mj.id.idPlayer = ?1 AND mj.id.idGame = ?2", Integer.class);
+            query2.setParameter(1, id_jogador);
+            query2.setParameter(2, id_game);
+            Integer pontuacaoMj = query2.getSingleResult();
+
+            TypedQuery<Integer> query3 = em.createQuery(
+                    "SELECT c.limitePontos " +
+                            "FROM Crachas c " +
+                            "WHERE c.id.idGame = ?1 AND c.id.nomeCracha = ?2", Integer.class);
+            query3.setParameter(1, id_game);
+            query3.setParameter(2, cracha_nome);
+            Integer limitePontos = query3.getSingleResult();
+            int totalPontos = (pontuacaoN != null ? pontuacaoN : 0) + (pontuacaoMj != null ? pontuacaoMj : 0);
+
+            if (totalPontos >= limitePontos) {
+                Query insertQuery = em.createNativeQuery(
+                        "INSERT INTO tem (id_player, nome_cracha, id_game, nome_regiao) " +
+                                "SELECT ?1, ?2, ?3, (SELECT nome_regiao FROM Jogadores j WHERE j.id_player = ?1) " +
+                                "WHERE NOT EXISTS " +
+                                "(SELECT 1 FROM tem WHERE id_player = ?1 AND nome_cracha = ?2 AND id_game = ?3)"
+                );
+                insertQuery.setParameter(1, id_jogador);
+                insertQuery.setParameter(2, cracha_nome);
+                insertQuery.setParameter(3, id_game);
+                insertQuery.executeUpdate();
+            }
+
             ds.validateWork();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -233,17 +260,19 @@ public class accessfunctionality {
             //Verificação de parâmetros
             if (nomeCracha.length() > 10) throw new IllegalArgumentException("Invalid nome cracha!");
             if (idGame.length() > 10) throw new IllegalArgumentException("Invalid id do game");
+
             String sql = "Select c from Crachas c where c.id.nomeCracha = ?1 and c.id.idGame = ?2";
             TypedQuery<Crachas> query = em.createQuery(sql, Crachas.class);
             query.setParameter(1, nomeCracha);
             query.setParameter(2, idGame);
             Crachas resultado = query.getSingleResult();
             System.out.println(resultado);
+
             Integer novosPontos = (int) (resultado.getLimitePontos() * 1.2);
             resultado.setLimitePontos(novosPontos);
-            try{
+            try {
                 ds.validateWork();
-            }catch (OptimisticLockException ex){
+            } catch (OptimisticLockException ex) {
                 System.err.println("Conflito detetado. A atualização nao pode ser concluída.");
                 return;
             }
@@ -255,44 +284,38 @@ public class accessfunctionality {
         DataScope ds = new DataScope();
         EntityManager em = ds.getEntityManager();
         EntityTransaction tx = em.getTransaction();
-        try{
+        try {
             tx.begin();
 
             if (nomeCracha.length() > 10) throw new IllegalArgumentException("Invalid nome cracha!");
             if (idGame.length() > 10) throw new IllegalArgumentException("Invalid id do game");
+
             String sql = "Select c from Crachas c where c.id.nomeCracha = ?1 and c.id.idGame = ?2";
             TypedQuery<Crachas> query = em.createQuery(sql, Crachas.class);
             query.setParameter(1, nomeCracha);
             query.setParameter(2, idGame);
             Crachas resultado = query.getSingleResult();
             System.out.println(resultado);
+
             Integer novosPontos = (int) (resultado.getLimitePontos() * 1.2);
             resultado.setLimitePontos(novosPontos);
 
             em.lock(resultado, LockModeType.PESSIMISTIC_WRITE);
-
             ds.validateWork();
-
             tx.commit();
 
             System.out.println(resultado);
-
-        }catch (OptimisticLockException ex){
+        } catch (OptimisticLockException ex) {
             System.err.println("Conflito detetado. A atualização nao pode ser concluída.");
-
-            if (tx.isActive()){
+            if (tx.isActive())
                 tx.rollback();
-            }
         } finally {
             ds.close();
         }
     }
 
 
-
-
     public static void main(String[] args) throws Exception {
-
         Integer idJogador = 1000;
         String idGame = "0123456789";
         String cracha = "Test Drive";
@@ -300,7 +323,8 @@ public class accessfunctionality {
         associar_cracha_np(idJogador, idGame, cracha);
     }
 
-   /* public static void main(String[] args) throws Exception {
+   /*
+   public static void main(String[] args) throws Exception {
         // Executa duas threads simultaneamente
         String idGame = "0123456789";
         String cracha = "Test Drive";
@@ -328,7 +352,8 @@ public class accessfunctionality {
         // Aguarda o término das threads
         thread1.join();
         thread2.join();
-    }*/
+    }
+    */
 
     // Restante do código...
 }

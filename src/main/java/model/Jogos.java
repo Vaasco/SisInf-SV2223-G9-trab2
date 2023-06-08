@@ -2,7 +2,6 @@ package model;
 
 import jakarta.persistence.*;
 
-
 import java.util.List;
 
 
@@ -33,7 +32,7 @@ public class Jogos {
     @OneToMany(mappedBy = "jogoNormal", cascade = CascadeType.PERSIST)
     private List<Normal> normal;
 
-    @OneToMany(mappedBy = "jogoMultijogador" , cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "jogoMultijogador", cascade = CascadeType.PERSIST)
     private List<Multijogador> multijogador;
 
 
@@ -64,9 +63,9 @@ public class Jogos {
     @Override
     public String toString() {
         return "Jogos[" +
-                "id_game = "        + getIdGame() +
-                " , nome_game = "   + getNomeGame() +
-                " , url = "         + getUrl() +
+                "id_game = " + getIdGame() +
+                " , nome_game = " + getNomeGame() +
+                " , url = " + getUrl() +
                 "]";
     }
 }

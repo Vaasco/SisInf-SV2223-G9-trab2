@@ -5,9 +5,9 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
-import javax.xml.namespace.QName;
 import java.io.Serializable;
 import java.util.Objects;
+
 
 @Embeddable
 public class Normald implements Serializable {

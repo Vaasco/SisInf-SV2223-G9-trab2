@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalTime;
 
+
 @Entity
 @Table(name = "normal")
 public class Normal {

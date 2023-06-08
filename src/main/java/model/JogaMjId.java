@@ -2,10 +2,9 @@ package model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.EmbeddedId;
 
 import java.io.Serializable;
-import java.util.Objects;
+
 
 @Embeddable
 public class JogaMjId implements Serializable {
@@ -14,7 +13,7 @@ public class JogaMjId implements Serializable {
     private Integer nmrSeqPartida;
 
     @Column(name = "id_game", nullable = false)
-    private Integer idGame;
+    private String idGame;
 
     @Column(name = "nome_regiao", nullable = false, length = 30)
     private String nomeRegiao;
@@ -39,11 +38,11 @@ public class JogaMjId implements Serializable {
         this.nmrSeqPartida = nmrSeqPartida;
     }
 
-    public Integer getIdGame() {
+    public String getIdGame() {
         return idGame;
     }
 
-    public void setIdGame(Integer idGame) {
+    public void setIdGame(String idGame) {
         this.idGame = idGame;
     }
 
