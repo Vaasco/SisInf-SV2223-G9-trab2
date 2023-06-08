@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 import model.Crachas;
 import model.CrachasId;
 import model.Jogadores;
-import org.eclipse.persistence.exceptions.i18n.ExceptionMessageGenerator;
+import org.postgresql.util.PGobject;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -99,29 +99,31 @@ public class accessFunctionality {
         }
     }
 
-    //todo COLOCAR ESTA FUNÇÃO A DAR PRINT!
-    //Alínea 2g
-    public static List<Object[]> pontos_jogo_por_jogador(String id_game) {
-        List<Object[]> resultTable = new ArrayList<>();
+
+    public static List<PGobject> pontos_jogo_por_jogador(String id_game) throws Exception {
+        //List<Object[]> resultTable = new ArrayList<>();
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
             String SQLQuery = "SELECT pontosjogoporjogador(?)";
             Query query = em.createNativeQuery(SQLQuery);
             query.setParameter(1, id_game);
-            List resultList = query.getResultList();
-            resultTable.addAll(resultList);
-            for (Object[] row : resultTable) {
-                //System.out.println(row);
-                int playerId = (int) row[0];
-                String gameId = (String) row[1];
-                System.out.printf("%4s , %10s", playerId, gameId);
-            }
+            List<PGobject> resultList = query.getResultList();
             ds.validateWork();
+            for(PGobject row:resultList){
+                String value = row.getValue();
+                String[] columns = value.substring(1,value.length()-1).split(",");
+                int playerId = Integer.parseInt(columns[0].trim());
+                int totalPoints = Integer.parseInt(columns[1].trim());
+                System.out.printf("%s , %s", playerId, totalPoints);
+            }
+            return resultList;
+
+
         } catch (Exception e) {
-            //_em.getTransaction().rollback();
             e.printStackTrace();
+            throw e;
         }
-        return resultTable;
+
     }
 
     //Alínea 2h
@@ -143,7 +145,7 @@ public class accessFunctionality {
     //Alínea 2i
     public static Integer iniciar_conversa(Integer id_jogador, String nome_chat) throws Exception {
         Integer ret;
-        try (DataScope ds = new  DataScope()) {
+        try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
 
             Connection cn = em.unwrap(Connection.class);
@@ -171,7 +173,6 @@ public class accessFunctionality {
             ds.validateWork();
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            //transaction.rollback();
         }
 
     }
@@ -220,7 +221,7 @@ public class accessFunctionality {
     }
 
     // 1b) 2h (sem aceder a procedimentos e functions)
-    public static void associar_cracha_np(Integer id_jogador, String id_game, String cracha_nome) throws Exception {
+    public static void associar_cracha_np(Integer id_jogador, String id_game, String cracha_nome) {
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
 
@@ -268,12 +269,6 @@ public class accessFunctionality {
         }
     }
 
-    /**
-     * Alínea 1c) 2h (reutilizando os procedimentos armazenados e funções que a funcionalidade original usa)
-     * <p>
-     * A funcionalidade original não utiliza procedimentos armazenados, logo torna-se impossível
-     * realizar esta alínea, pois não iríamos reutilizar nada.
-     */
 
     public static void associar_cracha_with_procedures(String idGame, String nomeCracha) throws Exception{
         try (DataScope ds = new DataScope()){

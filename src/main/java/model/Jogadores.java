@@ -4,7 +4,6 @@ package model;
 import jakarta.persistence.*;
 
 
-
 import java.util.List;
 
 
@@ -12,14 +11,14 @@ import java.util.List;
 @Table(name = "jogadores")
 
 
-public class Jogadores{
+public class Jogadores {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_player", length = 40, unique = true, nullable = false)
     private Integer id_player;
 
-    @Column(name = "email", length = 40,unique = true,nullable = false)
+    @Column(name = "email", length = 40, unique = true, nullable = false)
     private String email;
 
     @Column(name = "username", length = 40, unique = true, nullable = false)
@@ -44,8 +43,11 @@ public class Jogadores{
     @OneToMany(mappedBy = "jogador")
     private List<Tem> tem;
 
-    /*@OneToMany
-    private List<Jogadores> amigos;*/
+    @OneToMany( mappedBy = "idPlayer1", cascade = CascadeType.PERSIST)
+    private List<Amigo> amigo1;
+
+    @OneToMany(mappedBy = "idPlayer2")
+    private List<Amigo> amigo2;
 
     @OneToMany(mappedBy = "jogador")
     private List<Comprar> comprar;

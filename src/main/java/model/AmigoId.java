@@ -10,13 +10,13 @@ import java.util.Objects;
 public class AmigoId implements Serializable {
 
     private static final long serialVersionUID = -655725484378182258L;
-    @Column(name = "id_player1", nullable = false)
+    @Column(name = "id_player1", nullable = false , updatable = false)
     private Integer idPlayer1;
 
     @Column(name = "nome_regiao1", nullable = false)
     private String nomeRegiao1;
 
-    @Column(name = "id_player2", nullable = false)
+    @Column(name = "id_player2", nullable = false , updatable = false)
     private Integer idPlayer2;
 
     @Column(name = "nome_regiao2", nullable = false)

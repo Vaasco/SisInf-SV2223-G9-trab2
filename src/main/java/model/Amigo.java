@@ -9,10 +9,14 @@ public class Amigo {
     @EmbeddedId
     private AmigoId id;
 
-    /*@ManyToOne
-    private Jogadores jogadorOrigem;
+    @ManyToOne
+    @MapsId("idPlayer1")
+    @JoinColumn(name = "id_player1")
+    private Jogadores idPlayer1;
 
     @ManyToOne
-    private Jogadores jogadorDestino;*/
+    @MapsId("idPlayer2")
+    @JoinColumn(name = "id_player2")
+    private Jogadores idPlayer2;
 
 }
