@@ -196,8 +196,8 @@ public class accessFunctionality {
     //Alínea 2l
     public static List<Object[]> jogador_total_info() throws Exception {
         try (DataScope ds = new DataScope()) {
-            List<Object[]> resultTable = new ArrayList<>();
             EntityManager em = ds.getEntityManager();
+            List<Object[]> resultTable = new ArrayList<>();
             String SQLQuery = "select * from jogadorTotalInfo;";
             Query q = em.createNativeQuery(SQLQuery);
             resultTable.addAll(q.getResultList());
@@ -269,11 +269,27 @@ public class accessFunctionality {
     }
 
     /**
-     * 1c) 2h (reutilizando os procedimentos armazenados e funções que a funcionalidade original usa)
+     * Alínea 1c) 2h (reutilizando os procedimentos armazenados e funções que a funcionalidade original usa)
      * <p>
      * A funcionalidade original não utiliza procedimentos armazenados, logo torna-se impossível
      * realizar esta alínea, pois não iríamos reutilizar nada.
      */
+
+    public static void associar_cracha_with_procedures(String idGame, String nomeCracha) throws Exception{
+        try (DataScope ds = new DataScope()){
+            EntityManager em = ds.getEntityManager();
+            List<Object[]> resultTable = new ArrayList<>();
+            String SQLQuery = "select * from pontosjogoporjogador(?);";
+            Query q = em.createNativeQuery(SQLQuery);
+            q.setParameter(1,idGame);
+            resultTable.addAll(q.getResultList());
+            for (Object[] row : resultTable){
+                int idPlayer =(int) row[0];
+                associar_cracha(idPlayer,idGame,nomeCracha);
+            }
+        }
+    }
+
 
     //Alínea 2a)
     public static void optimistCrachaUpdate(String nomeCracha, String idGame) throws Exception {
@@ -299,7 +315,7 @@ public class accessFunctionality {
             System.out.println(resultado);
         }
     }
-
+    //Alínea 2b)
     public static void test2a() throws Exception{
         // Executa duas threads simultaneamente
         String idGame = "0123456789";
@@ -329,7 +345,7 @@ public class accessFunctionality {
         thread1.join();
         thread2.join();
     }
-        //2c)
+    //Alínea 2c)
     public static void pessimistCrachaUpdate(String nomeCracha, String idGame) throws Exception {
         try(DataScope ds = new DataScope()){
             EntityManager em = ds.getEntityManager();
