@@ -6,6 +6,7 @@ import data_access.UnitOfWork;
 import jakarta.persistence.*;
 import model.Crachas;
 import model.CrachasId;
+import model.Jogadores;
 import org.eclipse.persistence.exceptions.i18n.ExceptionMessageGenerator;
 
 import java.sql.CallableStatement;
@@ -195,9 +196,24 @@ public class accessFunctionality {
     //Alínea 2l
     public static List<Object[]> jogador_total_info() throws Exception {
         try (DataScope ds = new DataScope()) {
+            List<Object[]> resultTable = new ArrayList<>();
             EntityManager em = ds.getEntityManager();
             String SQLQuery = "select * from jogadorTotalInfo;";
             Query q = em.createNativeQuery(SQLQuery);
+            resultTable.addAll(q.getResultList());
+            System.out.println();
+            for ( Object[] row : resultTable ){
+                int playerId = (int) row[0];
+                String estado = (String) row[1];
+                String email = (String) row[2];
+                String username = (String) row[3];
+                int totaljogos = (int) row[4];
+                long totalpartidas = (long) row[5];
+                int totalpontos = (int) row[6];
+
+                System.out.printf("[PlayerID: %4s, Estado: %5s, Email: %5s, Username: %5s, TotalJogos: %2s, TotalPartidas: %2s, TotalPontos: %1s]\n", playerId, estado, email, username, totaljogos,totalpartidas,totalpontos);
+            }
+            System.out.println();
             ds.validateWork();
             return q.getResultList();
         }
@@ -341,8 +357,6 @@ public class accessFunctionality {
     }
 
    public static void main(String[] args) throws Exception{
-       String idGame = "0123456789";
-       String cracha = "Test Drive";
-       pessimistCrachaUpdate(cracha,idGame);
+      jogador_total_info();
     }
 }
