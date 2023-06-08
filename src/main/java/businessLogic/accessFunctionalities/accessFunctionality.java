@@ -252,36 +252,6 @@ public class accessFunctionality {
         }
     }
 
-    public static void pessimistCrachaUpdate(String nomeCracha, String idGame) throws Exception {
-        DataScope ds = new DataScope();
-        EntityManager em = ds.getEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
-
-            if (nomeCracha.length() > 10) throw new IllegalArgumentException("Invalid nome cracha!");
-            if (idGame.length() > 10) throw new IllegalArgumentException("Invalid id do game");
-
-            Crachas resultado = em.find(Crachas.class, new CrachasId(idGame, nomeCracha), LockModeType.PESSIMISTIC_READ);
-
-
-            Integer novosPontos = (int) (resultado.getLimitePontos() * 1.2);
-            resultado.setLimitePontos(novosPontos);
-
-            em.lock(resultado, LockModeType.PESSIMISTIC_WRITE);
-            ds.validateWork();
-            tx.commit();
-
-            System.out.println(resultado);
-        } catch (PessimisticLockException ex) {
-            System.err.println("Conflito detetado. A atualização nao pode ser concluída.");
-            if (tx.isActive())
-                tx.rollback();
-        } finally {
-            ds.close();
-        }
-    }
-
     /**
      * 1c) 2h (reutilizando os procedimentos armazenados e funções que a funcionalidade original usa)
      * <p>
@@ -314,9 +284,7 @@ public class accessFunctionality {
         }
     }
 
-
-
-   public static void main(String[] args) throws Exception {
+    public static void test2a() throws Exception{
         // Executa duas threads simultaneamente
         String idGame = "0123456789";
         String cracha = "Test Drive";
@@ -345,7 +313,36 @@ public class accessFunctionality {
         thread1.join();
         thread2.join();
     }
+        //2c)
+    public static void pessimistCrachaUpdate(String nomeCracha, String idGame) throws Exception {
+        try(DataScope ds = new DataScope()){
+            EntityManager em = ds.getEntityManager();
 
 
-    // Restante do código...
+            if (nomeCracha.length() > 10) throw new IllegalArgumentException("Invalid nome cracha!");
+            if (idGame.length() > 10) throw new IllegalArgumentException("Invalid id do game");
+
+            Crachas resultado = em.find(Crachas.class, new CrachasId(idGame, nomeCracha), LockModeType.PESSIMISTIC_WRITE);
+
+
+            Integer novosPontos = (int) (resultado.getLimitePontos() * 1.2);
+            resultado.setLimitePontos(novosPontos);
+
+
+            try{
+                ds.validateWork();
+            }catch (PessimisticLockException ex) {
+                System.err.println("Conflito detetado. A atualização nao pode ser concluída.");
+            } finally {
+                ds.close();
+                System.out.println(resultado);
+            }
+        }
+    }
+
+   public static void main(String[] args) throws Exception{
+       String idGame = "0123456789";
+       String cracha = "Test Drive";
+       pessimistCrachaUpdate(cracha,idGame);
+    }
 }

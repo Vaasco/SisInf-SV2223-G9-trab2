@@ -41,11 +41,13 @@ public class App {
 
     public void runApp() {
         try {
-            displayMenu();
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Enter a command number: ");
-            String command = scanner.nextLine();
-            new commands().getCommands().get(command).execute();
+            while (true){
+                displayMenu();
+                Scanner scanner = new Scanner(System.in);
+                System.out.println("Enter a command number: ");
+                String command = scanner.nextLine();
+                new commands().getCommands().get(command).execute();
+            }
         } catch (Exception e) {
 
         }
