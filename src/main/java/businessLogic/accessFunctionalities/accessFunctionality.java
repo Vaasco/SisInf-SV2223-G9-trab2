@@ -305,7 +305,7 @@ public class accessFunctionality {
             tx.commit();
 
             System.out.println(resultado);
-        } catch (OptimisticLockException ex) {
+        } catch (PessimisticLockException ex) {
             System.err.println("Conflito detetado. A atualização nao pode ser concluída.");
             if (tx.isActive())
                 tx.rollback();
