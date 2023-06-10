@@ -4,6 +4,7 @@ import businessLogic.DataScopes.DataScope;
 import jakarta.persistence.*;
 import model.Crachas;
 import model.CrachasId;
+import model.Jogadores;
 import org.postgresql.util.PGobject;
 
 import java.sql.CallableStatement;
@@ -95,6 +96,7 @@ public class accessFunctionality {
         }
     }
 
+    //Alínea 2g
     public static List<PGobject> pontos_jogo_por_jogador(String id_game) {
         //List<Object[]> resultTable = new ArrayList<>();
         try (DataScope ds = new DataScope()) {
@@ -109,8 +111,8 @@ public class accessFunctionality {
                 String[] columns =
                         value != null ? value.substring(1, value.length() - 1).split(",") : new String[0];
                 int playerId = Integer.parseInt(columns[0].trim());
-                int totalPoints = Integer.parseInt(columns[1].trim());
-                System.out.printf("%s , %s", playerId, totalPoints);
+                long totalPoints = Long.parseLong(columns[1].trim());
+                System.out.println("\n" + playerId + "  " + totalPoints + "\n");
             }
             return resultList;
         } catch (Exception e) {
@@ -222,7 +224,8 @@ public class accessFunctionality {
             TypedQuery<Integer> query1 = em.createQuery(
                     "SELECT CAST(SUM(n.pontuacaoN) AS INTEGER) " +
                             "FROM Normal n " +
-                            "WHERE n.idPlayer = ?1 AND n.id.idGame = ?2", Integer.class);
+                            "WHERE n.idPlayer = ?1 AND n.id.idGame = ?2",
+                    Integer.class);
             query1.setParameter(1, id_jogador);
             query1.setParameter(2, id_game);
             Integer pontuacaoN = query1.getSingleResult();
@@ -230,7 +233,8 @@ public class accessFunctionality {
             TypedQuery<Integer> query2 = em.createQuery(
                     "SELECT CAST(SUM(mj.pontuacaoMj) AS INTEGER) " +
                             "FROM JogaMj mj " +
-                            "WHERE mj.id.idPlayer = ?1 AND mj.id.idGame = ?2", Integer.class);
+                            "WHERE mj.id.idPlayer = ?1 AND mj.id.idGame = ?2",
+                    Integer.class);
             query2.setParameter(1, id_jogador);
             query2.setParameter(2, id_game);
             Integer pontuacaoMj = query2.getSingleResult();
@@ -238,7 +242,8 @@ public class accessFunctionality {
             TypedQuery<Integer> query3 = em.createQuery(
                     "SELECT c.limitePontos " +
                             "FROM Crachas c " +
-                            "WHERE c.id.idGame = ?1 AND c.id.nomeCracha = ?2", Integer.class);
+                            "WHERE c.id.idGame = ?1 AND c.id.nomeCracha = ?2",
+                    Integer.class);
             query3.setParameter(1, id_game);
             query3.setParameter(2, cracha_nome);
             Integer limitePontos = query3.getSingleResult();
@@ -265,18 +270,57 @@ public class accessFunctionality {
 
 
     // 1c) 2h (reutilizando os PA e funções que a funcionalidade pgSql original usa)
-    public static void associar_cracha_with_procedures(String idGame, String nomeCracha) {
+    public static void associar_cracha_reusing_procedures(Integer idJogador, String idGame, String nomeCracha) {
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
-            List<Object[]> resultTable = new ArrayList<>();
-            String SQLQuery = "select * from pontosjogoporjogador(?);";
-            Query q = em.createNativeQuery(SQLQuery);
-            q.setParameter(1, idGame);
-            resultTable.addAll(q.getResultList());
-            for (Object[] row : resultTable) {
-                int idPlayer = (int) row[0];
-                associar_cracha(idPlayer, idGame, nomeCracha);
+
+            Query query1 = em.createNativeQuery(
+                    "select pontos " +
+                            "from PontosJogoPorJogador(?1) " +
+                            "where id_jogador = ?2"
+            );
+            query1.setParameter(1, idGame);
+            query1.setParameter(2, idJogador);
+            Object aux1 = query1.getSingleResult();
+            Long pontosJogo = aux1 != null ? ((Number) aux1).longValue() : 0L;
+
+            Query query2 = em.createNativeQuery(
+                    "select j.nome_regiao from jogadores j where j.id_player = ?1"
+            );
+            query2.setParameter(1, idJogador);
+            Object aux2 = query2.getSingleResult();
+            if (aux2 == null) throw new IllegalStateException("Invalid 'regiao'.");
+            String regiao = aux2.toString();
+
+            Query query3 = em.createNativeQuery(
+                    "select c.limite_pontos from crachas c where c.id_game = ?1 and c.nome_cracha = ?2"
+            );
+            query3.setParameter(1, idGame);
+            query3.setParameter(2, nomeCracha);
+            Object aux3 = query3.getSingleResult();
+            if (aux3 == null) aux3 = 0;
+            Integer limitePontos = (Integer) aux3;
+
+            if (pontosJogo >= limitePontos) {
+                //System.out.println("\n\n" + pontosJogo + "  " + regiao + "  " + limitePontos + "\n\n");
+                Query queryInsert = em.createNativeQuery(
+                        "insert into tem (id_player, nome_cracha, id_game, nome_regiao) " +
+                                "select ?1, ?2, ?3, ?4 " +
+                                "where not exists(" +
+                                "select 1 from tem " +
+                                "where id_player = ?5 and nome_cracha = ?6 and id_game = ?7" +
+                                ")"
+                );
+                queryInsert.setParameter(1, idJogador);
+                queryInsert.setParameter(2, nomeCracha);
+                queryInsert.setParameter(3, idGame);
+                queryInsert.setParameter(4, regiao);
+                queryInsert.setParameter(5, idJogador);
+                queryInsert.setParameter(6, nomeCracha);
+                queryInsert.setParameter(7, idGame);
+                queryInsert.executeUpdate();
             }
+            ds.validateWork();
         }
     }
 
@@ -336,6 +380,7 @@ public class accessFunctionality {
         thread2.join();
     }
 
+
     //Alínea 2c)
     public static void pessimistCrachaUpdate(String nomeCracha, String idGame) {
         try (DataScope ds = new DataScope()) {
@@ -362,6 +407,16 @@ public class accessFunctionality {
 
 
     public static void main(String[] args) {
-        jogador_total_info();
+        /*2d*//*
+        criar_jogador("testMain@hotmail.com", "Test Main", "Africa");
+        //desativar_jogador(1000);
+        //banir_jogador(1000);
+        */
+        /*2e*////*
+
+        //*/
+        //jogador_total_info();
+        //associar_cracha_reusing_procedures(1000, "0123456789", "Test Drive");
+        //pontos_jogo_por_jogador("0123456789");
     }
 }
