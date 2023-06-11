@@ -10,6 +10,10 @@ import java.util.Objects;
 @Embeddable
 public class CrachasId implements Serializable {
 
+    public CrachasId() {
+
+    }
+
     private static final long serialVersionUID = -3782802734831814999L;
 
     public CrachasId(String idGame, String nomeCracha) {
@@ -23,9 +27,6 @@ public class CrachasId implements Serializable {
     @Column(name = "nome_cracha", nullable = false)
     private String nomeCracha;
 
-    public CrachasId() {
-
-    }
 
     public String getIdGame() {
         return idGame;
