@@ -6,18 +6,7 @@ import java.util.Scanner;
 
 
 public class App {
-
-    /*
-    private void getPersistence() {
-        try {
-            UnitOfWork context = new UnitOfWork();
-        } catch (Exception e) {
-            System.out.println("Something went wrong with the initialization of the JPAContext.");
-            System.exit(1);
-        }
-    }
-    */
-
+    
     private void displayMenu() {
         int i = 0;
         System.out.println("Menu");
@@ -52,6 +41,7 @@ public class App {
             System.out.println("\nBye!\n");
         }
     }
+
 
     public static void main(String[] args) {
         App app = new App();

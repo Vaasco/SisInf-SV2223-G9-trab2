@@ -1,6 +1,7 @@
 package businessLogic.accessFunctionalities;
 
 import businessLogic.DataScopes.DataScope;
+import data_access.Mappers;
 import jakarta.persistence.*;
 import model.Crachas;
 import model.CrachasId;
@@ -247,14 +248,9 @@ public class accessFunctionality {
             query2.setParameter(2, id_game);
             Integer pontuacaoMj = query2.getSingleResult();
 
-            TypedQuery<Integer> query3 = em.createQuery(
-                    "SELECT c.limitePontos " +
-                            "FROM Crachas c " +
-                            "WHERE c.id.idGame = ?1 AND c.id.nomeCracha = ?2",
-                    Integer.class);
-            query3.setParameter(1, id_game);
-            query3.setParameter(2, cracha_nome);
-            Integer limitePontos = query3.getSingleResult();
+            Mappers.CrachaMapper crachaMapper = new Mappers.CrachaMapper();
+            Crachas cracha = crachaMapper.read(id_game, cracha_nome);
+            Integer limitePontos = cracha.getLimitePontos();
             int totalPontos = (pontuacaoN != null ? pontuacaoN : 0) + (pontuacaoMj != null ? pontuacaoMj : 0);
 
             if (totalPontos >= limitePontos) {
@@ -435,11 +431,11 @@ public class accessFunctionality {
         List<PGobject> pontosJogoPorJogadorList = pontos_jogo_por_jogador("22222bbbbb");
         System.out.println("\n" + pontosJogoPorJogadorList + "\n");
         */
-        /*Fase 1) h*/ /*
-        associar_cracha(1000, "0123456789", "Test Drive");
-        //associar_cracha_np(1000, "0123456789", "Test Drive");
+        /*Fase 1) h*/
+        //associar_cracha(1000, "0123456789", "Test Drive");
+        associar_cracha_np(1000, "0123456789", "Test Drive");
         //associar_cracha_reusing_procedures(1000, "0123456789", "Test Drive");
-        */
+
         /*Fase 1) i*/ /*
         Integer idNovaConversa = iniciar_conversa(1000, "Test Main");
         System.out.println("\n" + idNovaConversa + "\n");
