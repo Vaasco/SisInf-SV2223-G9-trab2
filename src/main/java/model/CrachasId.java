@@ -23,6 +23,9 @@ public class CrachasId implements Serializable {
     @Column(name = "nome_cracha", nullable = false)
     private String nomeCracha;
 
+    public CrachasId() {
+
+    }
 
     public String getIdGame() {
         return idGame;
