@@ -101,7 +101,7 @@ public class accessFunctionality {
             query.setParameter(1, id_game);
             List<PGobject> resultList = query.getResultList();
             ds.validateWork();
-            /*
+
             for (PGobject row : resultList) {
                 String value = row.getValue();
                 String[] columns =
@@ -110,7 +110,7 @@ public class accessFunctionality {
                 long totalPoints = Long.parseLong(columns[1].trim());
                 System.out.println("\n" + playerId + "  " + totalPoints + "\n");
             }
-            */
+
             return resultList;
         } catch (Exception e) {
             e.printStackTrace();
@@ -197,7 +197,7 @@ public class accessFunctionality {
             String SQLQuery = "select * from jogadorTotalInfo;";
             Query q = em.createNativeQuery(SQLQuery);
             List<Object[]> resultTable = q.getResultList();
-            /*
+
             System.out.println();
             for (Object[] row : resultTable) {
                 int playerId = (int) row[0];
@@ -214,7 +214,7 @@ public class accessFunctionality {
                 );
             }
             System.out.println();
-            */
+
             ds.validateWork();
             return resultTable;
         } catch (Exception e) {
