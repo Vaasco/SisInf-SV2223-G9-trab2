@@ -23,9 +23,6 @@ public class CrachasId implements Serializable {
     @Column(name = "nome_cracha", nullable = false)
     private String nomeCracha;
 
-    public CrachasId() {
-
-    }
 
     public String getIdGame() {
         return idGame;
@@ -43,10 +40,12 @@ public class CrachasId implements Serializable {
         this.nomeCracha = nomeCracha;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         CrachasId entity = (CrachasId) o;
         return Objects.equals(this.idGame, entity.idGame) &&
                 Objects.equals(this.nomeCracha, entity.nomeCracha);

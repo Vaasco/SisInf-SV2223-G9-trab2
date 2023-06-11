@@ -4,13 +4,12 @@ import businessLogic.DataScopes.DataScope;
 import jakarta.persistence.*;
 import model.Crachas;
 import model.CrachasId;
-import model.Jogadores;
 import org.postgresql.util.PGobject;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Types;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -42,7 +41,6 @@ public class accessFunctionality {
             ds.validateWork();
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            //transaction.rollback();
         }
     }
 
@@ -56,7 +54,6 @@ public class accessFunctionality {
             ds.validateWork();
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            //transaction.rollback();
         }
     }
 
@@ -73,7 +70,6 @@ public class accessFunctionality {
             return totalPoints;
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            //transaction.rollback();
             throw e;
         }
     }
@@ -91,7 +87,6 @@ public class accessFunctionality {
             return totalJogos;
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            //transaction.rollback();
             throw e;
         }
     }
@@ -106,6 +101,7 @@ public class accessFunctionality {
             query.setParameter(1, id_game);
             List<PGobject> resultList = query.getResultList();
             ds.validateWork();
+            /*
             for (PGobject row : resultList) {
                 String value = row.getValue();
                 String[] columns =
@@ -114,6 +110,7 @@ public class accessFunctionality {
                 long totalPoints = Long.parseLong(columns[1].trim());
                 System.out.println("\n" + playerId + "  " + totalPoints + "\n");
             }
+            */
             return resultList;
         } catch (Exception e) {
             e.printStackTrace();
@@ -133,27 +130,34 @@ public class accessFunctionality {
             ds.validateWork();
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            //transaction.rollback();
         }
     }
 
     //Alínea 2i
-    public static Integer iniciar_conversa(Integer id_jogador, String nome_chat) throws Exception {
+    public static Integer iniciar_conversa(Integer id_jogador, String nome_chat) throws SQLException {
+        int ret;
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
             Connection cn = em.unwrap(Connection.class);
 
-            int ret;
             try (CallableStatement f = cn.prepareCall("CALL iniciarconversa(?,?,?)")) {
-                f.registerOutParameter(3, Types.INTEGER);
                 f.setInt(1, id_jogador);
                 f.setString(2, nome_chat);
+                f.registerOutParameter(3, Types.INTEGER);
                 f.execute();
                 ret = f.getInt(3);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                throw e;
             }
+
             ds.validateWork();
-            return ret;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw e;
         }
+
+        return ret;
     }
 
     //Alínea 2j
@@ -182,7 +186,6 @@ public class accessFunctionality {
             query.executeUpdate();
             ds.validateWork();
         } catch (Exception e) {
-            //_em.getTransaction().rollback();
             e.printStackTrace();
         }
     }
@@ -191,10 +194,10 @@ public class accessFunctionality {
     public static List<Object[]> jogador_total_info() {
         try (DataScope ds = new DataScope()) {
             EntityManager em = ds.getEntityManager();
-            List<Object[]> resultTable = new ArrayList<>();
             String SQLQuery = "select * from jogadorTotalInfo;";
             Query q = em.createNativeQuery(SQLQuery);
-            resultTable.addAll(q.getResultList());
+            List<Object[]> resultTable = q.getResultList();
+            /*
             System.out.println();
             for (Object[] row : resultTable) {
                 int playerId = (int) row[0];
@@ -204,11 +207,16 @@ public class accessFunctionality {
                 int totaljogos = (int) row[4];
                 long totalpartidas = (long) row[5];
                 int totalpontos = (int) row[6];
-                System.out.printf("[PlayerID: %4s, Estado: %5s, Email: %5s, Username: %5s, TotalJogos: %2s, TotalPartidas: %2s, TotalPontos: %1s]\n", playerId, estado, email, username, totaljogos, totalpartidas, totalpontos);
+                System.out.printf(
+                        "[PlayerID: %4s, Estado: %5s, Email: %5s, Username: %5s, " +
+                                "TotalJogos: %2s, TotalPartidas: %2s, TotalPontos: %1s]\n",
+                        playerId, estado, email, username, totaljogos, totalpartidas, totalpontos
+                );
             }
             System.out.println();
+            */
             ds.validateWork();
-            return q.getResultList();
+            return resultTable;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw e;
@@ -261,7 +269,6 @@ public class accessFunctionality {
                 insertQuery.setParameter(3, id_game);
                 insertQuery.executeUpdate();
             }
-
             ds.validateWork();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -282,7 +289,7 @@ public class accessFunctionality {
             query1.setParameter(1, idGame);
             query1.setParameter(2, idJogador);
             Object aux1 = query1.getSingleResult();
-            Long pontosJogo = aux1 != null ? ((Number) aux1).longValue() : 0L;
+            long pontosJogo = aux1 != null ? ((Number) aux1).longValue() : 0L;
 
             Query query2 = em.createNativeQuery(
                     "select j.nome_regiao from jogadores j where j.id_player = ?1"
@@ -334,24 +341,26 @@ public class accessFunctionality {
             if (idGame.length() > 10) throw new IllegalArgumentException("Invalid id do game");
 
             Crachas resultado = em.find(Crachas.class, new CrachasId(idGame, nomeCracha));
-            System.out.println(resultado);
+            System.out.println("\n" + resultado + "\n");
 
             Integer novosPontos = (int) (resultado.getLimitePontos() * 1.2);
             resultado.setLimitePontos(novosPontos);
+
             try {
                 ds.validateWork();
             } catch (OptimisticLockException ex) {
                 System.err.println("Conflito detetado. A atualização não pode ser concluída.");
                 return;
             }
-            System.out.println(resultado);
+
+            System.out.println("\n" + resultado + "\n");
         }
     }
 
 
     //Alínea 2b)
     public static void test2a() throws Exception {
-        // Executa duas threads simultaneamente
+        //Executa duas threads simultaneamente
         String idGame = "0123456789";
         String cracha = "Test Drive";
 
@@ -389,7 +398,9 @@ public class accessFunctionality {
             if (nomeCracha.length() > 10) throw new IllegalArgumentException("Invalid nome cracha!");
             if (idGame.length() > 10) throw new IllegalArgumentException("Invalid id do game");
 
-            Crachas resultado = em.find(Crachas.class, new CrachasId(idGame, nomeCracha), LockModeType.PESSIMISTIC_WRITE);
+            Crachas resultado =
+                    em.find(Crachas.class, new CrachasId(idGame, nomeCracha), LockModeType.PESSIMISTIC_WRITE);
+            System.out.println("\n" + resultado + "\n");
 
             Integer novosPontos = (int) (resultado.getLimitePontos() * 1.2);
             resultado.setLimitePontos(novosPontos);
@@ -397,26 +408,62 @@ public class accessFunctionality {
             try {
                 ds.validateWork();
             } catch (PessimisticLockException ex) {
-                System.err.println("Conflito detetado. A atualização nao pode ser concluída.");
+                System.err.println("Conflito detetado. A atualização não pode ser concluída.");
             } finally {
-                ds.close();
-                System.out.println(resultado);
+                ds.validateWork();
+                System.out.println("\n" + resultado + "\n");
             }
         }
     }
 
 
-    public static void main(String[] args) {
-        /*2d*//*
+    public static void main(String[] args) throws Exception {
+        /*Fase 1) d*/ /*
         criar_jogador("testMain@hotmail.com", "Test Main", "Africa");
         //desativar_jogador(1000);
         //banir_jogador(1000);
         */
-        /*2e*////*
-
-        //*/
-        //jogador_total_info();
+        /*Fase 1) e*/ /*
+        Integer totalPontosJogador = total_pontos_jogador(1001);
+        System.out.println("\n" + totalPontosJogador + "\n");
+        */
+        /*Fase 1) f*/ /*
+        Integer totalJogosJogador = total_jogos_jogador(1001);
+        System.out.println("\n" + totalJogosJogador + "\n");
+        */
+        /*Fase 1) g*/ /*
+        List<PGobject> pontosJogoPorJogadorList = pontos_jogo_por_jogador("22222bbbbb");
+        System.out.println("\n" + pontosJogoPorJogadorList + "\n");
+        */
+        /*Fase 1) h*/ /*
+        associar_cracha(1000, "0123456789", "Test Drive");
+        //associar_cracha_np(1000, "0123456789", "Test Drive");
         //associar_cracha_reusing_procedures(1000, "0123456789", "Test Drive");
-        //pontos_jogo_por_jogador("0123456789");
+        */
+        /*Fase 1) i*/ /*
+        Integer idNovaConversa = iniciar_conversa(1000, "Test Main");
+        System.out.println("\n" + idNovaConversa + "\n");
+        */
+        /*Fase 1) j*/ /*
+        juntar_conversa(1001, 100000);
+        */
+        /*Fase 1) k*/ /*
+        enviar_mensagem(1000, 100000, "Test Main");
+        */
+        /*Fase 1) l*/ /*
+        List<Object[]> jogadorTotalInfoList = jogador_total_info();
+        System.out.println();
+        for (Object[] jogadorInfo : jogadorTotalInfoList) {
+            System.out.format("%-6s %-8s %-25s %-15s %-2s %-2s %-10s%n", jogadorInfo);
+        }
+        */
+
+        /*2a) e 2b)*/ /*
+        //optimistCrachaUpdate("Test Drive", "0123456789");
+        test2a();
+        */
+        /*2c*/        /*
+        pessimistCrachaUpdate("Test Drive", "0123456789");
+        */
     }
 }

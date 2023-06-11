@@ -14,11 +14,13 @@ public class ComprarId implements Serializable {
 
     @Column(name = "id_game", nullable = false)
     private Character idGame;
+
     @Column(name = "id_player", nullable = false)
     private Integer idPlayer;
 
     @Column(name = "nome_regiao", nullable = false)
     private String nomeRegiao;
+
 
     public Character getIdGame() {
         return idGame;
@@ -44,10 +46,12 @@ public class ComprarId implements Serializable {
         this.nomeRegiao = nomeRegiao;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         ComprarId entity = (ComprarId) o;
         return Objects.equals(this.idGame, entity.idGame) &&
                 Objects.equals(this.idPlayer, entity.idPlayer) &&
@@ -58,5 +62,4 @@ public class ComprarId implements Serializable {
     public int hashCode() {
         return Objects.hash(idGame, idPlayer, nomeRegiao);
     }
-
 }

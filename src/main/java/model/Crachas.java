@@ -18,7 +18,6 @@ public class Crachas {
     @Column(name = "url")
     private String url;
 
-
     @Version
     @Column(name = "limite_pontos")
     private Integer limitePontos;
@@ -35,21 +34,17 @@ public class Crachas {
         return id;
     }
 
-
     public void setId(CrachasId id) {
         this.id = id;
     }
-
 
     public String getUrl() {
         return url;
     }
 
-
     public void setUrl(String url) {
         this.url = url;
     }
-
 
     public Integer getLimitePontos() {
         return limitePontos;
@@ -59,13 +54,14 @@ public class Crachas {
         this.limitePontos = limitePontos;
     }
 
+
     @Override
     public String toString() {
         return "Cracha[" +
                 "id_game = " + id.getIdGame() +
-                " , nome_cracha = " + id.getNomeCracha() +
-                " , url = " + getUrl() +
-                " ,limite_pontos=" + getLimitePontos() +
+                ", nome_cracha = " + id.getNomeCracha() +
+                ", url = " + getUrl() +
+                ", limite_pontos = " + getLimitePontos() +
                 "]";
     }
 }

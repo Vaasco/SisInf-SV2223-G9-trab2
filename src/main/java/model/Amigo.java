@@ -2,6 +2,7 @@ package model;
 
 import jakarta.persistence.*;
 
+
 @Entity
 @Table(name = "amigo")
 public class Amigo {
@@ -18,5 +19,4 @@ public class Amigo {
     @MapsId("idPlayer2")
     @JoinColumn(name = "id_player2")
     private Jogadores idPlayer2;
-
 }

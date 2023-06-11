@@ -1,5 +1,6 @@
 package data_mappers;
 
+
 public interface IDataMapper<T, Tid> {
     Tid Create(T entity) throws Exception;
 

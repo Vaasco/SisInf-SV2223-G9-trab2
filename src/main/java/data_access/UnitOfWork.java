@@ -52,18 +52,20 @@ public class UnitOfWork implements IUnitOfWork {
     @Override
     public void connect() {
         try {
-            if (_emf != null && !_emf.isOpen()) _emf = Persistence.createEntityManagerFactory(persistenceUnitName);
-            if (_em != null && !_em.isOpen()) _em = _emf.createEntityManager();
+            if (_emf != null && !_emf.isOpen())
+                _emf = Persistence.createEntityManagerFactory(persistenceUnitName);
+            if (_em != null && !_em.isOpen())
+                _em = _emf.createEntityManager();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-
     }
 
     public void close() {
-        if (_em != null && _em.isOpen()) _em.close();
-        if (_emf != null && _emf.isOpen()) _emf.close();
+        if (_em != null && _em.isOpen())
+            _em.close();
+        if (_emf != null && _emf.isOpen())
+            _emf.close();
     }
-
 }
 

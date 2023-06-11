@@ -8,31 +8,34 @@ import model.*;
 
 import java.util.List;
 
+
 public class Test {
-    public static void test1() throws Exception {
+
+    public static void test1() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAEx");
         try (emf; EntityManager em = emf.createEntityManager()) {
-            //Criar um aluno
-            System.out.println("Ler um tem");
+            //Criar um jogador
             em.getTransaction().begin();
             String sql = "SELECT j FROM Jogadores j";
             Query query = em.createQuery(sql);
-            List<Jogadores > la = query.getResultList();
 
-            for (Jogadores   ax : la) {
+            List<Jogadores> playerList = query.getResultList();
+            System.out.println();
+            for (Jogadores ax : playerList) {
                 System.out.println(ax.toString());
             }
-
+            System.out.println();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw e;
         }
     }
 
+
     public static void main(String[] args) {
         try {
             test1();
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

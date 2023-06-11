@@ -8,19 +8,19 @@ import java.util.Scanner;
 
 
 public class ConsoleView implements View {
+
     private static final String APP_TITLE = "On Track Management";
 
     public void clear() {
         for (int y = 0; y < 25; y++) //console is 80 columns and 25 lines
             System.out.println("\n");
-
     }
 
     private final void println(String s) {
         System.out.println(s);
     }
 
-    private final static void println() {
+    private static void println() {
         System.out.println();
     }
 
@@ -80,6 +80,7 @@ public class ConsoleView implements View {
 
             if (input == null || input.isEmpty())
                 return null;
+
             return BigDecimal.valueOf(Double.parseDouble(input));
         } catch (NoSuchElementException e) { //input equals '\n'
             println("Invalid input.");
@@ -95,6 +96,7 @@ public class ConsoleView implements View {
         try {
             Scanner scanner = new Scanner(System.in);
             String input = scanner.nextLine();
+
             if (input == null || input.isEmpty())
                 return null;
 
@@ -141,11 +143,13 @@ public class ConsoleView implements View {
     }
 
     public final void waitForInput() throws IOException {
+        //TODO não é suposto retornar o que é lido?
         System.in.read();
     }
 
     @Override
     public void printList(List<?> list) {
-
+        //TODO melhorar isto
+        println(list.toString());
     }
 }

@@ -1,6 +1,5 @@
 package model;
 
-
 import jakarta.persistence.*;
 
 
@@ -58,13 +57,14 @@ public class estatisticas_jogo {
         this.totalPontosGame = totalPontosGame;
     }
 
+
     @Override
     public String toString() {
         return "EstatisticasJogo[" +
                 "id_game = " + getIdGame() +
-                " , nmr_partidas_game = " + getNmrPartidasGame() +
-                " , nmr_players = " + getNmrPlayers() +
-                " , total_pontos_game = " + getTotalPontosGame() +
+                ", nmr_partidas_game = " + getNmrPartidasGame() +
+                ", nmr_players = " + getNmrPlayers() +
+                ", total_pontos_game = " + getTotalPontosGame() +
                 "]";
     }
 }

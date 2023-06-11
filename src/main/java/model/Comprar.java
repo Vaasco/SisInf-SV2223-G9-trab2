@@ -2,14 +2,13 @@ package model;
 
 import jakarta.persistence.*;
 
-
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 
 @Entity
 @Table(name = "Comprar")
 public class Comprar {
+
     @EmbeddedId
     private ComprarId id;
 
@@ -28,6 +27,7 @@ public class Comprar {
     @MapsId("idGame")
     @JoinColumn(name = "id_game")
     private Jogos jogo;
+
 
     public ComprarId getId() {
         return id;
@@ -53,8 +53,16 @@ public class Comprar {
         this.preco = preco;
     }
 
+
     @Override
     public String toString() {
-        return "Comprar[" + "id_game=" + id.getIdGame() + " ,id_player=" + id.getIdPlayer() + " ,nome_regiao=" + id.getNomeRegiao() + " ,data_compra=" + getDataCompra() + " ,preco=" + getPreco() + "]";
+        return
+                "Comprar[" +
+                        "id_game = " + id.getIdGame() +
+                        ", id_player = " + id.getIdPlayer() +
+                        ", nome_regiao = " + id.getNomeRegiao() +
+                        ", data_compra = " + getDataCompra() +
+                        ", preco = " + getPreco() +
+                        "]";
     }
 }

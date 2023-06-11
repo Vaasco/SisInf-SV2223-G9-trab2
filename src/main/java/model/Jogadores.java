@@ -1,16 +1,12 @@
 package model;
 
-
 import jakarta.persistence.*;
-
 
 import java.util.List;
 
 
 @Entity
 @Table(name = "jogadores")
-
-
 public class Jogadores {
 
     @Id
@@ -43,7 +39,7 @@ public class Jogadores {
     @OneToMany(mappedBy = "jogador")
     private List<Tem> tem;
 
-    @OneToMany( mappedBy = "idPlayer1", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "idPlayer1", cascade = CascadeType.PERSIST)
     private List<Amigo> amigo1;
 
     @OneToMany(mappedBy = "idPlayer2")
@@ -99,14 +95,15 @@ public class Jogadores {
         this.nomeRegiao = nomeRegiao;
     }
 
+
     @Override
     public String toString() {
         return "Jogadores[" +
                 "id_player = " + id_player +
-                " , email = " + getEmail() +
-                " , username = " + getUsername() +
-                " , estado_player = " + getEstadoPlayer() +
-                " , nome_regiao = " + getNomeRegiao() +
+                ", email = " + getEmail() +
+                ", username = " + getUsername() +
+                ", estado_player = " + getEstadoPlayer() +
+                ", nome_regiao = " + getNomeRegiao() +
                 "]";
     }
 }

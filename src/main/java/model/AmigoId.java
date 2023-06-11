@@ -6,21 +6,24 @@ import jakarta.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
+
 @Embeddable
 public class AmigoId implements Serializable {
 
     private static final long serialVersionUID = -655725484378182258L;
-    @Column(name = "id_player1", nullable = false , updatable = false)
+
+    @Column(name = "id_player1", nullable = false, updatable = false)
     private Integer idPlayer1;
 
     @Column(name = "nome_regiao1", nullable = false)
     private String nomeRegiao1;
 
-    @Column(name = "id_player2", nullable = false , updatable = false)
+    @Column(name = "id_player2", nullable = false, updatable = false)
     private Integer idPlayer2;
 
     @Column(name = "nome_regiao2", nullable = false)
     private String nomeRegiao2;
+
 
     public Integer getIdPlayer1() {
         return idPlayer1;
@@ -53,6 +56,7 @@ public class AmigoId implements Serializable {
     public void setNomeRegiao2(String nomeRegiao2) {
         this.nomeRegiao2 = nomeRegiao2;
     }
+
 
     @Override
     public boolean equals(Object o) {

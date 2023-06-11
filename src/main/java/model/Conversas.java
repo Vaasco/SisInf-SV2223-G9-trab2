@@ -39,11 +39,12 @@ public class Conversas {
         this.nomeConversa = nomeConversa;
     }
 
+
     @Override
     public String toString() {
         return "Conversas[" +
                 "id_conversa = " + idConversa +
-                " , nome_conversa = " + getNomeConversa() +
+                ", nome_conversa = " + getNomeConversa() +
                 "]";
     }
 }

@@ -2,7 +2,6 @@ package unit_of_work;
 
 
 public interface IUnitOfWork {
-
     void beginTransaction();
 
     void commit();

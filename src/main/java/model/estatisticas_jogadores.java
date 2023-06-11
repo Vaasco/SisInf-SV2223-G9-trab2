@@ -20,19 +20,19 @@ public class estatisticas_jogadores {
     private Integer totalPontosPlayer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_player", insertable = false , updatable = false)
+    @JoinColumn(name = "id_player", insertable = false, updatable = false)
     private Jogadores jogador;
 
 
-    public Integer getNmrPartidasPlayer(){
+    public Integer getNmrPartidasPlayer() {
         return nmrPartidasPlayer;
     }
 
-    public void setNmrPartidasPlayer(Integer nmrPartidasPlayer){
+    public void setNmrPartidasPlayer(Integer nmrPartidasPlayer) {
         this.nmrPartidasPlayer = nmrPartidasPlayer;
     }
 
-    public Integer getNmrJogos(){
+    public Integer getNmrJogos() {
         return nmrJogos;
     }
 
@@ -47,13 +47,15 @@ public class estatisticas_jogadores {
     public void setTotalPontosPlayer(Integer totalPontosPlayer) {
         this.totalPontosPlayer = totalPontosPlayer;
     }
+
+
     @Override
-    public String toString(){
+    public String toString() {
         return "EstatisticasJogadores[" +
-                "id_player = " + id_player  +
-                " , nmr_partidas_player = " + getNmrPartidasPlayer() +
-                " , nmr_jogos = "           + getNmrJogos() +
-                " , total_pontos_player = " + getTotalPontosPlayer() +
+                "id_player = " + id_player +
+                ", nmr_partidas_player = " + getNmrPartidasPlayer() +
+                ", nmr_jogos = " + getNmrJogos() +
+                ", total_pontos_player = " + getTotalPontosPlayer() +
                 "]";
     }
 }
