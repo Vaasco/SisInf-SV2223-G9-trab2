@@ -108,7 +108,7 @@ public class accessFunctionality {
                         value != null ? value.substring(1, value.length() - 1).split(",") : new String[0];
                 int playerId = Integer.parseInt(columns[0].trim());
                 long totalPoints = Long.parseLong(columns[1].trim());
-                System.out.println("\n" + playerId + "  " + totalPoints + "\n");
+                System.out.println("\n Player_ID:" + playerId + "  Points:" + totalPoints + "\n");
             }
 
             return resultList;
@@ -341,12 +341,13 @@ public class accessFunctionality {
             if (idGame.length() > 10) throw new IllegalArgumentException("Invalid id do game");
 
             Crachas resultado = em.find(Crachas.class, new CrachasId(idGame, nomeCracha));
-            System.out.println("\n" + resultado + "\n");
+            System.out.println("\n" + "Thread ID:"  + Thread.currentThread().getId() + "\nObjeto" + resultado + "\n");
 
             Integer novosPontos = (int) (resultado.getLimitePontos() * 1.2);
             resultado.setLimitePontos(novosPontos);
 
             try {
+                System.out.println("\nTentando validar o commit, Thread ID:" + Thread.currentThread().getId() + "\n");
                 ds.validateWork();
             } catch (OptimisticLockException ex) {
                 System.err.println("Conflito detetado. A atualização não pode ser concluída.");
@@ -368,7 +369,8 @@ public class accessFunctionality {
             try {
                 optimistCrachaUpdate(cracha, idGame);
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println("Thread ID:"  + Thread.currentThread().getId());
+                System.err.println("Conflito detetado. A atualização não pode ser concluída.");
             }
         });
 
@@ -376,7 +378,8 @@ public class accessFunctionality {
             try {
                 optimistCrachaUpdate(cracha, idGame);
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println("Thread ID:"  + Thread.currentThread().getId());
+                System.err.println("Conflito detetado. A atualização não pode ser concluída.");
             }
         });
 
@@ -418,6 +421,7 @@ public class accessFunctionality {
 
 
     public static void main(String[] args) throws Exception {
+        test2a();
         /*Fase 1) d*/ /*
         criar_jogador("testMain@hotmail.com", "Test Main", "Africa");
         //desativar_jogador(1000);
